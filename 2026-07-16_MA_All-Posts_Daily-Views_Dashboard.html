@@ -1,0 +1,1288 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carlcare Morocco Facebook Page World Cup Data Dashboard</title>
+  <style>
+    :root {
+      --bg: #f7f9ff;
+      --panel: rgba(255, 255, 255, 0.72);
+      --panel-strong: rgba(255, 255, 255, 0.9);
+      --ink: #1f2a44;
+      --muted: #7a86a5;
+      --line: rgba(140, 154, 190, 0.18);
+      --blue: #5f7cf7;
+      --green: #47d7bf;
+      --red: #f06f9d;
+      --gold: #ffc65c;
+      --teal: #33c7dc;
+      --violet: #9b78ff;
+      --slate: #4b5878;
+      --shadow: 0 22px 70px rgba(74, 91, 145, 0.14);
+      --soft-shadow: 0 12px 32px rgba(88, 104, 160, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.72);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background:
+        linear-gradient(125deg, rgba(255,255,255,0.96) 0%, rgba(247,250,255,0.92) 38%, rgba(241,247,255,0.9) 100%),
+        radial-gradient(80% 45% at 78% -8%, rgba(141, 193, 255, 0.34), transparent 64%),
+        radial-gradient(70% 42% at 28% 8%, rgba(180, 140, 255, 0.2), transparent 62%),
+        linear-gradient(90deg, rgba(85, 217, 206, 0.08), rgba(255, 159, 211, 0.1));
+      color: var(--ink);
+      font-family: "SF Pro Display", "SF Pro Text", Inter, Arial, "Helvetica Neue", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(115deg, transparent 10%, rgba(104, 171, 255, 0.11) 31%, transparent 48%),
+        linear-gradient(150deg, transparent 35%, rgba(255, 177, 226, 0.12) 50%, transparent 72%);
+      opacity: 0.9;
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.22) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.18), transparent 58%);
+      z-index: -1;
+    }
+
+    .shell {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      min-height: 210px;
+      padding: 30px 32px;
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.88), rgba(255,255,255,0.58)),
+        radial-gradient(70% 85% at 88% 12%, rgba(136, 207, 255, 0.34), transparent 65%),
+        linear-gradient(95deg, rgba(151, 120, 255, 0.16), rgba(79, 216, 204, 0.1));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(24px) saturate(1.22);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      right: 6%;
+      top: -34%;
+      width: 360px;
+      height: 360px;
+      border: 1px solid rgba(255,255,255,0.64);
+      border-radius: 50%;
+      background:
+        conic-gradient(from 140deg, rgba(98, 127, 255, 0.08), rgba(70, 220, 199, 0.22), rgba(255, 133, 212, 0.14), rgba(98, 127, 255, 0.08));
+      box-shadow: inset 0 0 34px rgba(255,255,255,0.72), 0 24px 70px rgba(112, 132, 214, 0.18);
+      filter: blur(0.2px);
+      opacity: 0.9;
+    }
+
+    header > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      max-width: 780px;
+      font-size: clamp(36px, 4.8vw, 68px);
+      line-height: 1.02;
+      font-weight: 760;
+      letter-spacing: 0;
+      color: #7467f2;
+      text-wrap: balance;
+    }
+
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      max-width: 640px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      height: 36px;
+      padding: 0 15px;
+      border: 1px solid rgba(255,255,255,0.66);
+      background: rgba(255,255,255,0.58);
+      border-radius: 999px;
+      color: var(--slate);
+      font-size: 13px;
+      font-weight: 650;
+      white-space: nowrap;
+      box-shadow: 0 10px 28px rgba(118, 133, 196, 0.12);
+      backdrop-filter: blur(18px);
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0 18px;
+    }
+
+    .kpi {
+      background: linear-gradient(145deg, rgba(255,255,255,0.88), rgba(255,255,255,0.58));
+      border: 1px solid var(--glass-border);
+      border-radius: 22px;
+      padding: 18px 18px 16px;
+      min-height: 128px;
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(20px) saturate(1.15);
+      position: relative;
+      overflow: hidden;
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+
+    .kpi:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 54px rgba(88, 104, 160, 0.16);
+    }
+
+    .kpi::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--green), #f28bd5);
+      opacity: 0.72;
+    }
+
+    .kpi span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .kpi strong {
+      display: block;
+      margin-top: 12px;
+      font-size: clamp(24px, 2.3vw, 34px);
+      line-height: 1;
+      color: #23304f;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi em {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-style: normal;
+      line-height: 1.35;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 18px 0 20px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.66);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.54);
+      box-shadow: 0 12px 36px rgba(88, 104, 160, 0.09);
+      backdrop-filter: blur(22px);
+    }
+
+    select, input {
+      height: 42px;
+      border: 1px solid rgba(126, 143, 190, 0.16);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.78);
+      color: var(--ink);
+      padding: 0 14px;
+      font-size: 14px;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.76);
+      transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: rgba(112, 131, 255, 0.56);
+      box-shadow: 0 0 0 4px rgba(112, 131, 255, 0.12);
+    }
+
+    input {
+      width: min(320px, 100%);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.48fr) minmax(360px, .62fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--glass-border);
+      border-radius: 26px;
+      padding: 22px;
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(22px) saturate(1.12);
+      overflow: hidden;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.25;
+      color: #26324f;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      max-width: 420px;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 12px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(126, 143, 190, 0.12);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      color: var(--slate);
+      font-size: 12px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex: 0 0 10px;
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.7);
+    }
+
+    .truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .bars {
+      display: grid;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 88px;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .bar-name {
+      font-size: 13px;
+      color: var(--slate);
+      margin-bottom: 6px;
+      font-weight: 650;
+    }
+
+    .bar-track {
+      height: 11px;
+      background: rgba(229, 235, 249, 0.82);
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 2px rgba(77, 91, 145, 0.08);
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .bar-value {
+      text-align: right;
+      font-size: 13px;
+      font-weight: 730;
+    }
+
+    .followers-section {
+      margin-top: 18px;
+    }
+
+    .analysis-section {
+      margin-top: 18px;
+    }
+
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .analysis-card {
+      border: 1px solid rgba(255,255,255,0.68);
+      border-radius: 24px;
+      padding: 18px;
+      background: linear-gradient(150deg, rgba(255,255,255,0.86), rgba(255,255,255,0.58));
+      min-height: 226px;
+      box-shadow: 0 16px 42px rgba(88, 104, 160, 0.1);
+      backdrop-filter: blur(18px);
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+
+    .analysis-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 58px rgba(88, 104, 160, 0.14);
+    }
+
+    .analysis-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .analysis-title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .analysis-title a,
+    .post-link {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 760;
+    }
+
+    .analysis-title a:hover,
+    .post-link:hover {
+      text-decoration: underline;
+    }
+
+    .analysis-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .mini-metric {
+      border: 1px solid rgba(126, 143, 190, 0.12);
+      border-radius: 16px;
+      padding: 11px;
+      background: rgba(255,255,255,0.72);
+      min-height: 68px;
+    }
+
+    .mini-metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 730;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+      letter-spacing: 0;
+    }
+
+    .mini-metric strong {
+      display: block;
+      font-size: 17px;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+      color: #253151;
+    }
+
+    .analysis-copy {
+      margin: 0;
+      color: var(--slate);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    details.daily-detail {
+      margin-top: 12px;
+      border-top: 1px solid rgba(126, 143, 190, 0.14);
+      padding-top: 10px;
+    }
+
+    details.daily-detail summary {
+      cursor: pointer;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 720;
+      list-style-position: inside;
+      transition: color 200ms ease;
+    }
+
+    details.daily-detail summary:hover {
+      color: var(--violet);
+    }
+
+    .mini-table-wrap {
+      overflow: auto;
+      margin-top: 10px;
+      border: 1px solid rgba(126, 143, 190, 0.14);
+      border-radius: 16px;
+      max-height: 260px;
+      background: rgba(255,255,255,0.6);
+    }
+
+    .mini-table {
+      min-width: 620px;
+      font-size: 12px;
+    }
+
+    .mini-table th,
+    .mini-table td {
+      padding: 8px 10px;
+    }
+
+    .table-section {
+      margin-top: 18px;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .table-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(126, 143, 190, 0.14);
+      background: rgba(255,255,255,0.34);
+    }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: 560px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1120px;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(126, 143, 190, 0.1);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: rgba(250,252,255,0.96);
+      color: var(--slate);
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    td.num, th.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(238, 244, 255, 0.86);
+      color: #5068d8;
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.72);
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      padding: 18px 6px 4px;
+    }
+
+    @media (max-width: 980px) {
+      .shell { padding: 18px; }
+      header, .grid { grid-template-columns: 1fr; }
+      header { min-height: auto; }
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .analysis-grid { grid-template-columns: 1fr; }
+      .legend { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      h1 { font-size: 26px; }
+      .kpis { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div>
+        <h1>Carlcare Morocco Facebook Page World Cup Data Dashboard</h1>
+        <p class="sub">Daily Views performance for Algeria World Cup campaign, prediction, and winner announcement posts. Metric scope: Views only, not Reach.</p>
+        <div class="tags" aria-label="Dashboard scope tags">
+          <span class="badge">Views only</span>
+          <span class="badge">Prediction trend</span>
+          <span class="badge">Account follows</span>
+          <span class="badge">Post analysis</span>
+        </div>
+      </div>
+      <div class="badge">Generated: 2026-07-16</div>
+    </header>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="toolbar">
+      <select id="categoryFilter" aria-label="Filter by category"></select>
+      <select id="postFilter" aria-label="Filter by post"></select>
+      <input id="searchInput" type="search" placeholder="Search post or date">
+      <span class="hint" id="rowCount"></span>
+    </div>
+
+    <div class="grid">
+      <section>
+        <div class="section-title">
+          <h2>Daily Views Trend</h2>
+          <span class="hint">Only prediction posts are shown in the trend line; other posts stay in total views.</span>
+        </div>
+        <svg id="trendChart" viewBox="0 0 920 430" role="img" aria-label="Daily views trend chart"></svg>
+        <div class="legend" id="legend"></div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <h2>Total Views by Post</h2>
+          <span class="hint">Latest cumulative_views per post.</span>
+        </div>
+        <div class="bars" id="bars"></div>
+      </section>
+    </div>
+
+    <section class="followers-section">
+      <div class="section-title">
+        <h2>Account Followers Growth by Date</h2>
+        <span class="hint">Unduplicated account-level new follows for Carlcare Service Morocco (MA), matched by date.</span>
+      </div>
+      <svg id="followersChart" viewBox="0 0 920 300" role="img" aria-label="Account followers growth by date"></svg>
+    </section>
+
+    <section class="analysis-section">
+      <div class="section-title">
+        <h2>Post Analysis</h2>
+        <span class="hint">Each card is calculated from the same master table.</span>
+      </div>
+      <div class="analysis-grid" id="postAnalysis"></div>
+    </section>
+
+    <section class="table-section">
+      <div class="table-head">
+        <div>
+          <h2>Master Table</h2>
+          <div class="hint">One row equals one post on one date.</div>
+        </div>
+        <div class="hint">Source: Meta Business Suite Object Insights Views chart</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Post</th>
+              <th>Post Link</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Observation Time</th>
+              <th class="num">Daily Views</th>
+              <th class="num">Cumulative Views</th>
+              <th class="num">Account New Follows</th>
+              <th>Page</th>
+              <th>Source File</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      Data caveat: Account followers growth is date-level account data for Carlcare Service Morocco (MA). The trend line shows prediction posts only; campaign and winner announcement posts stay in total views, post analysis, and the master table. Some Business Suite overview totals can be slightly higher than chart-attributed daily rows, so the master table preserves the visible chart series rather than forcing unassigned views into a date.
+    </footer>
+  </div>
+
+  <script>
+const CSV_DATA = `post_label,post_url,post_category,page,date,observation_time_cst,cumulative_views,daily_views,account_new_follows,source,source_file
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-15,2026-06-15 23:38,488,488,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-16,2026-06-16 22:38,803,315,6,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-17,2026-06-17 19:38,923,120,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-18,2026-06-18 19:38,974,51,179,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-19,2026-06-19 19:38,1045,71,96,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-20,2026-06-20 19:38,1073,28,4,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-21,2026-06-21 19:38,1093,20,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-22,2026-06-22 19:38,1110,17,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-23,2026-06-23 19:38,1136,26,154,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-24,2026-06-24 19:38,1167,31,89,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-25,2026-06-25 19:38,1173,6,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-26,2026-06-26 19:38,1178,5,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-27,2026-06-27 19:38,1181,3,12,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-28,2026-06-28 19:38,1186,5,7,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-29,2026-06-29 19:38,1189,3,45,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-06-30,2026-06-30 19:38,1191,2,10,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-07-01,2026-07-01 19:38,1205,14,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-07-02,2026-07-02 19:38,1207,2,97,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-07-03,2026-07-03 19:38,1212,5,32,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-07-04,2026-07-04 19:38,1213,1,28,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-07-05,2026-07-05 19:38,1214,1,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Fan Selfie Campaign Announcement - Jun 15,https://www.facebook.com/photo/?fbid=1029512696326790&set=a.263461102931957,Campaign announcement,Carlcare Service Morocco (MA),2026-07-06,2026-07-06 19:38,1219,5,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Fan-Selfie-Campaign-Announcement-Jun-15_Daily-Views.csv
+Morocco Predict & Win Prediction - Jul 8,https://www.facebook.com/photo?fbid=1049079307703462&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-08,2026-07-08 23:43,1361,1361,11,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jul-8_Daily-Views.csv
+Morocco Predict & Win Prediction - Jul 8,https://www.facebook.com/photo?fbid=1049079307703462&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-09,2026-07-09 23:43,2404,1043,6,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jul-8_Daily-Views.csv
+Morocco Predict & Win Prediction - Jul 8,https://www.facebook.com/photo?fbid=1049079307703462&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-10,2026-07-10 23:43,2697,293,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jul-8_Daily-Views.csv
+Morocco Predict & Win Prediction - Jul 8,https://www.facebook.com/photo?fbid=1049079307703462&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-11,2026-07-11 23:43,2747,50,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jul-8_Daily-Views.csv
+Morocco Predict & Win Prediction - Jul 8,https://www.facebook.com/photo?fbid=1049079307703462&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-12,2026-07-12 17:43,2772,25,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jul-8_Daily-Views.csv
+Morocco Predict & Win Prediction - Jul 8,https://www.facebook.com/photo?fbid=1049079307703462&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-16,2026-07-16 17:43,2796,24,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jul-8_Daily-Views.csv
+Morocco Predict & Win Prediction - Jul 8,https://www.facebook.com/photo?fbid=1049079307703462&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-14,2026-07-14 17:43,2820,24,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jul-8_Daily-Views.csv
+Morocco Predict & Win Prediction - Jul 8,https://www.facebook.com/photo?fbid=1049079307703462&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-15,2026-07-15 17:43,2826,6,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jul-8_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-12,2026-06-12 23:58,31,31,136,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-13,2026-06-13 22:43,49558,49527,73,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-14,2026-06-14 22:43,56251,6693,6,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-15,2026-06-15 22:43,57816,1565,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-16,2026-06-16 22:43,58422,606,6,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-17,2026-06-17 22:43,58768,346,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-18,2026-06-18 22:43,58992,224,179,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-19,2026-06-19 22:43,59137,145,96,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-20,2026-06-20 22:43,59208,71,4,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-21,2026-06-21 22:43,59240,32,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-22,2026-06-22 22:43,59266,26,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-23,2026-06-23 22:43,59302,36,154,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-24,2026-06-24 22:43,59329,27,89,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-25,2026-06-25 22:43,59336,7,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-26,2026-06-26 22:43,59340,4,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-27,2026-06-27 22:43,59351,11,12,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-28,2026-06-28 22:43,59362,11,7,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-29,2026-06-29 22:43,59371,9,45,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-30,2026-06-30 22:43,59384,13,10,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-01,2026-07-01 22:43,59391,7,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-02,2026-07-02 22:43,59397,6,97,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 12,https://www.facebook.com/photo?fbid=1027089256569134&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-03,2026-07-03 22:43,59403,6,32,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-12_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-18,2026-06-18 23:32,2694,2694,179,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-19,2026-06-19 21:02,36312,33618,96,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-20,2026-06-20 21:02,42912,6600,4,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-21,2026-06-21 21:02,44190,1278,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-22,2026-06-22 21:02,44831,641,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-23,2026-06-23 21:02,45217,386,154,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-24,2026-06-24 21:02,45527,310,89,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-25,2026-06-25 21:02,45750,223,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-26,2026-06-26 21:02,45879,129,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-27,2026-06-27 21:02,45930,51,12,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-28,2026-06-28 21:02,45952,22,7,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-29,2026-06-29 21:02,45975,23,45,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-30,2026-06-30 21:02,46013,38,10,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-01,2026-07-01 21:02,46049,36,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-02,2026-07-02 21:02,46069,20,97,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-03,2026-07-03 21:02,46086,17,32,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-04,2026-07-04 21:02,46101,15,28,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-05,2026-07-05 21:02,46115,14,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-06,2026-07-06 21:02,46128,13,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-07,2026-07-07 21:02,46143,15,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-08,2026-07-08 21:02,46152,9,11,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 18,https://www.facebook.com/photo?fbid=1032095862735140&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-09,2026-07-09 21:02,46160,8,6,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-18_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-23,2026-06-23 23:52,4060,4060,154,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-24,2026-06-24 21:52,34471,30411,89,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-25,2026-06-25 21:52,41131,6660,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-26,2026-06-26 21:52,42230,1099,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-27,2026-06-27 21:52,42751,521,12,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-28,2026-06-28 21:52,43019,268,7,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-29,2026-06-29 21:52,43186,167,45,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-30,2026-06-30 21:52,43324,138,10,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-01,2026-07-01 21:52,43396,72,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-02,2026-07-02 21:52,43447,51,97,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-03,2026-07-03 21:52,43486,39,32,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-04,2026-07-04 21:52,43503,17,28,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-05,2026-07-05 21:52,43520,17,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-06,2026-07-06 21:52,43540,20,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-07,2026-07-07 21:52,43554,14,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-08,2026-07-08 21:52,43686,132,11,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-09,2026-07-09 21:52,43699,13,6,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-10,2026-07-10 21:52,43706,7,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-11,2026-07-11 21:52,43714,8,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-12,2026-07-12 21:52,43719,5,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-16,2026-07-16 21:52,43725,6,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 23,https://www.facebook.com/photo?fbid=1036308848980508&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-14,2026-07-14 21:52,43737,12,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-23_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-29,2026-06-29 23:50,3875,3875,45,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-06-30,2026-06-30 22:20,6156,2281,10,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-01,2026-07-01 22:20,6389,233,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-02,2026-07-02 22:20,6573,184,97,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-03,2026-07-03 16:20,6634,61,32,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-04,2026-07-04 16:20,6698,64,28,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-05,2026-07-05 16:20,6739,41,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-06,2026-07-06 16:20,6761,22,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-07,2026-07-07 16:20,6786,25,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-08,2026-07-08 16:20,6801,15,11,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-09,2026-07-09 16:20,6808,7,6,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-10,2026-07-10 16:20,6811,3,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-11,2026-07-11 16:20,6813,2,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-12,2026-07-12 16:20,6814,1,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-16,2026-07-16 16:20,6814,0,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-14,2026-07-14 16:20,6819,5,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - Jun 29,https://www.facebook.com/photo?fbid=1041109115167148&set=a.263461102931957,Prediction campaign,Carlcare Service Morocco (MA),2026-07-15,2026-07-15 16:20,6820,1,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-Jun-29_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-02,2026-07-02 23:47,2741,2741,97,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-03,2026-07-03 23:47,20091,17350,32,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-04,2026-07-04 20:47,21887,1796,28,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-05,2026-07-05 20:47,23376,1489,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-06,2026-07-06 20:47,23744,368,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-07,2026-07-07 20:47,23946,202,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-08,2026-07-08 20:47,24093,147,11,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-09,2026-07-09 20:47,24174,81,6,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-10,2026-07-10 20:47,24237,63,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-11,2026-07-11 20:47,24254,17,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-12,2026-07-12 20:47,24259,5,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-16,2026-07-16 20:47,24272,13,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-14,2026-07-14 20:47,24280,8,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Prediction - New,https://www.facebook.com/CarlcareServiceMA/posts/pfbid07bVTbS7Un6rhcERZCMxXawKRJzp4UsJtdvgjZaQr7u865kGiRVcjR2RBtcw8jj5vl,Prediction campaign,Carlcare Service Morocco (MA),2026-07-15,2026-07-15 20:47,24291,11,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Prediction-New_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-01,2026-07-01 23:15,1734,1734,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-02,2026-07-02 21:15,2424,690,97,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-03,2026-07-03 18:15,2978,554,32,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-04,2026-07-04 18:15,3234,256,28,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-05,2026-07-05 12:15,3277,43,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-06,2026-07-06 12:15,3314,37,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-07,2026-07-07 12:15,3354,40,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-08,2026-07-08 00:15,3359,5,11,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-09,2026-07-09 00:15,3375,16,6,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-10,2026-07-10 00:15,3389,14,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-11,2026-07-11 00:15,3391,2,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-12,2026-07-12 00:15,3392,1,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-16,2026-07-16 00:15,3392,0,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-14,2026-07-14 00:15,3396,4,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-15,2026-07-15 00:15,3400,4,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 1,https://www.facebook.com/photo?fbid=1042303331714393&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-16,2026-07-16 00:15,3400,0,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-1_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 7,https://www.facebook.com/photo?fbid=1047545921190134&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-07,2026-07-07 23:59,318,318,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-7_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 7,https://www.facebook.com/photo?fbid=1047545921190134&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-08,2026-07-08 23:59,370,52,11,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-7_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 7,https://www.facebook.com/photo?fbid=1047545921190134&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-09,2026-07-09 23:59,412,42,6,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-7_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 7,https://www.facebook.com/photo?fbid=1047545921190134&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-10,2026-07-10 23:59,422,10,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-7_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 7,https://www.facebook.com/photo?fbid=1047545921190134&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-11,2026-07-11 23:59,425,3,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-7_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 7,https://www.facebook.com/photo?fbid=1047545921190134&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-12,2026-07-12 23:59,426,1,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-7_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 7,https://www.facebook.com/photo?fbid=1047545921190134&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-16,2026-07-16 23:59,438,12,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-7_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 7,https://www.facebook.com/photo?fbid=1047545921190134&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-14,2026-07-14 23:59,444,6,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-7_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jul 7,https://www.facebook.com/photo?fbid=1047545921190134&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-15,2026-07-15 23:59,444,0,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jul-7_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-17,2026-06-17 23:17,834,834,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-18,2026-06-18 21:17,921,87,179,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-19,2026-06-19 18:17,1028,107,96,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-20,2026-06-20 18:17,1103,75,4,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-21,2026-06-21 12:17,1151,48,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-22,2026-06-22 12:17,1175,24,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-23,2026-06-23 12:17,1193,18,154,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-24,2026-06-24 00:17,1230,37,89,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-25,2026-06-25 00:17,1270,40,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-26,2026-06-26 00:17,1278,8,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-27,2026-06-27 00:17,1286,8,12,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-28,2026-06-28 00:17,1291,5,7,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-29,2026-06-29 00:17,1297,6,45,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-30,2026-06-30 00:17,1303,6,10,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-01,2026-07-01 00:17,1309,6,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-02,2026-07-02 00:17,1320,11,97,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-03,2026-07-03 00:17,1324,4,32,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-04,2026-07-04 00:17,1329,5,28,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-05,2026-07-05 00:17,1329,0,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-06,2026-07-06 00:17,1333,4,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-07,2026-07-07 00:17,1349,16,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 17,https://www.facebook.com/photo/?fbid=1030547319556661&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-08,2026-07-08 00:17,1349,0,11,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-17_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-23,2026-06-23 23:40,265,265,154,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-24,2026-06-24 23:40,448,183,89,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-25,2026-06-25 23:40,557,109,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-26,2026-06-26 23:40,597,40,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-27,2026-06-27 17:40,617,20,12,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-28,2026-06-28 17:40,644,27,7,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-29,2026-06-29 17:40,663,19,45,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-30,2026-06-30 17:40,678,15,10,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-01,2026-07-01 17:40,698,20,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-02,2026-07-02 17:40,701,3,97,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-03,2026-07-03 17:40,715,14,32,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-04,2026-07-04 17:40,718,3,28,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-05,2026-07-05 17:40,724,6,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-06,2026-07-06 17:40,730,6,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-07,2026-07-07 17:40,748,18,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-08,2026-07-08 17:40,749,1,11,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-09,2026-07-09 17:40,752,3,6,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-10,2026-07-10 17:40,753,1,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-11,2026-07-11 17:40,754,1,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-12,2026-07-12 17:40,754,0,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-16,2026-07-16 17:40,754,0,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 23,https://www.facebook.com/photo?fbid=1036143668997026&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-14,2026-07-14 17:40,759,5,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-23_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-25,2026-06-25 23:54,494,494,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-26,2026-06-26 21:54,2933,2439,8,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-27,2026-06-27 21:54,3561,628,12,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-28,2026-06-28 21:54,4990,1429,7,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-29,2026-06-29 21:54,5476,486,45,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-06-30,2026-06-30 21:54,5598,122,10,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-01,2026-07-01 21:54,5674,76,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-02,2026-07-02 21:54,5716,42,97,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-03,2026-07-03 21:54,5743,27,32,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-04,2026-07-04 21:54,5754,11,28,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-05,2026-07-05 21:54,5763,9,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-06,2026-07-06 21:54,5776,13,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-07,2026-07-07 21:54,5787,11,2,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-08,2026-07-08 21:54,5796,9,11,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-09,2026-07-09 21:54,5799,3,6,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-10,2026-07-10 21:54,5801,2,0,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-11,2026-07-11 21:54,5804,3,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-12,2026-07-12 21:54,5806,2,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-16,2026-07-16 21:54,5808,2,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-14,2026-07-14 21:54,5812,4,3,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+Morocco Predict & Win Winners Announcement - Jun 25,https://www.facebook.com/photo?fbid=1037969918814401&set=a.263461102931957,Winner announcement,Carlcare Service Morocco (MA),2026-07-15,2026-07-15 21:54,5813,1,1,Meta Business Suite Object Insights Views chart,2026-07-16_MA_Morocco-Predict-Win-Winners-Announcement-Jun-25_Daily-Views.csv
+`;
+
+const colors = ['#2d6cdf', '#16856a', '#d35445', '#bd7b16', '#0f8b8d', '#7a5cff', '#344054'];
+
+function parseCSV(csv) {
+  const lines = csv.trim().replace(/^\uFEFF/, '').split(/\n/);
+  const headers = lines[0].split(',');
+  return lines.slice(1).map(line => {
+    const cells = line.split(',');
+    const row = {};
+    headers.forEach((h, i) => row[h] = cells[i] || '');
+    row.cumulative_views = Number(row.cumulative_views);
+    row.daily_views = Number(row.daily_views);
+    row.account_new_follows = Number(row.account_new_follows || 0);
+    return row;
+  });
+}
+
+const allRows = parseCSV(CSV_DATA);
+const state = { category: 'All categories', post: 'All posts', search: '' };
+
+function fmt(n) {
+  return Number(n).toLocaleString('en-US');
+}
+
+function shortDate(d) {
+  return d.slice(5);
+}
+
+function unique(items) {
+  return [...new Set(items)];
+}
+
+function latestByPost(rows) {
+  const map = new Map();
+  rows.forEach(row => {
+    const current = map.get(row.post_label);
+    if (!current || row.date > current.date || (row.date === current.date && row.cumulative_views > current.cumulative_views)) {
+      map.set(row.post_label, row);
+    }
+  });
+  return [...map.values()].sort((a, b) => b.cumulative_views - a.cumulative_views);
+}
+
+function uniqueDateFollows(rows) {
+  const map = new Map();
+  rows.forEach(row => {
+    map.set(row.date, row.account_new_follows);
+  });
+  return [...map.entries()]
+    .map(([date, account_new_follows]) => ({ date, account_new_follows }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function sumUniqueDateFollows(rows) {
+  return uniqueDateFollows(rows).reduce((sum, row) => sum + row.account_new_follows, 0);
+}
+
+
+function trendRows(rows) {
+  return rows.filter(row => row.post_category === 'Prediction campaign');
+}
+
+function filteredRows() {
+  const query = state.search.trim().toLowerCase();
+  return allRows.filter(row => {
+    const catOk = state.category === 'All categories' || row.post_category === state.category;
+    const postOk = state.post === 'All posts' || row.post_label === state.post;
+    const searchOk = !query || `${row.post_label} ${row.post_category} ${row.date}`.toLowerCase().includes(query);
+    return catOk && postOk && searchOk;
+  });
+}
+
+function setupFilters() {
+  const categoryFilter = document.getElementById('categoryFilter');
+  const postFilter = document.getElementById('postFilter');
+  const categories = ['All categories', ...unique(allRows.map(r => r.post_category))];
+  categoryFilter.innerHTML = categories.map(c => `<option>${c}</option>`).join('');
+  categoryFilter.addEventListener('change', () => {
+    state.category = categoryFilter.value;
+    state.post = 'All posts';
+    renderPostFilter();
+    render();
+  });
+  postFilter.addEventListener('change', () => {
+    state.post = postFilter.value;
+    render();
+  });
+  document.getElementById('searchInput').addEventListener('input', event => {
+    state.search = event.target.value;
+    render();
+  });
+  renderPostFilter();
+}
+
+function renderPostFilter() {
+  const postFilter = document.getElementById('postFilter');
+  const source = state.category === 'All categories' ? allRows : allRows.filter(r => r.post_category === state.category);
+  const posts = ['All posts', ...unique(source.map(r => r.post_label))];
+  postFilter.innerHTML = posts.map(p => `<option>${p}</option>`).join('');
+  postFilter.value = state.post;
+}
+
+function renderKpis(rows) {
+  const posts = latestByPost(rows);
+  const total = posts.reduce((sum, r) => sum + r.cumulative_views, 0);
+  const totalFollows = sumUniqueDateFollows(rows);
+  const topPost = posts[0];
+  const peak = rows.reduce((best, r) => r.daily_views > best.daily_views ? r : best, rows[0] || { daily_views: 0, post_label: '-', date: '-' });
+  const categories = unique(rows.map(r => r.post_category)).length;
+  const cards = [
+    ['Posts', fmt(posts.length), `${categories} ${categories === 1 ? 'category' : 'categories'}`],
+    ['Total Views', fmt(total), 'Latest cumulative views by post'],
+    ['Account Follows', fmt(totalFollows), 'Unduplicated new follows by date'],
+    ['Top Post', topPost ? fmt(topPost.cumulative_views) : '0', topPost ? topPost.post_label : '-'],
+    ['Highest Daily Peak', fmt(peak.daily_views), `${peak.post_label} · ${peak.date}`]
+  ];
+  document.getElementById('kpis').innerHTML = cards.map(card => `
+    <div class="kpi">
+      <span>${card[0]}</span>
+      <strong>${card[1]}</strong>
+      <em>${card[2]}</em>
+    </div>
+  `).join('');
+}
+
+function drawTrend(rows) {
+  const svg = document.getElementById('trendChart');
+  svg.innerHTML = '';
+  if (!rows.length) return;
+  const width = 920, height = 430;
+  const pad = { left: 62, right: 24, top: 24, bottom: 54 };
+  const dates = unique(rows.map(r => r.date)).sort();
+  const posts = unique(rows.map(r => r.post_label));
+  const maxY = Math.max(...rows.map(r => r.daily_views), 10);
+  const x = date => pad.left + (dates.indexOf(date) / Math.max(dates.length - 1, 1)) * (width - pad.left - pad.right);
+  const y = val => height - pad.bottom - (val / maxY) * (height - pad.top - pad.bottom);
+  const el = (name, attrs = {}, text = '') => {
+    const node = document.createElementNS('http://www.w3.org/2000/svg', name);
+    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    if (text) node.textContent = text;
+    svg.appendChild(node);
+    return node;
+  };
+
+  for (let i = 0; i <= 4; i++) {
+    const value = Math.round(maxY * i / 4);
+    const yy = y(value);
+    el('line', { x1: pad.left, y1: yy, x2: width - pad.right, y2: yy, stroke: '#e5e9f0', 'stroke-width': 1 });
+    el('text', { x: pad.left - 12, y: yy + 4, 'text-anchor': 'end', fill: '#667085', 'font-size': 12 }, fmt(value));
+  }
+
+  const tickEvery = Math.max(1, Math.ceil(dates.length / 7));
+  dates.forEach((date, index) => {
+    if (index % tickEvery === 0 || index === dates.length - 1) {
+      const xx = x(date);
+      el('text', { x: xx, y: height - 22, 'text-anchor': 'middle', fill: '#667085', 'font-size': 12 }, shortDate(date));
+    }
+  });
+
+  posts.forEach((post, index) => {
+    const postRows = rows.filter(r => r.post_label === post).sort((a, b) => a.date.localeCompare(b.date));
+    const color = colors[index % colors.length];
+    const points = postRows.map(r => `${x(r.date)},${y(r.daily_views)}`).join(' ');
+    el('polyline', { points, fill: 'none', stroke: color, 'stroke-width': 3, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' });
+    postRows.forEach(r => {
+      const circle = el('circle', { cx: x(r.date), cy: y(r.daily_views), r: 3.2, fill: color });
+      circle.innerHTML = `<title>${post} · ${r.date}: ${fmt(r.daily_views)} views</title>`;
+    });
+  });
+}
+
+function renderLegend(rows) {
+  const posts = unique(rows.map(r => r.post_label));
+  document.getElementById('legend').innerHTML = posts.map((post, index) => `
+    <div class="legend-item">
+      <span class="dot" style="background:${colors[index % colors.length]}"></span>
+      <span class="truncate">${post}</span>
+    </div>
+  `).join('');
+}
+
+function renderBars(rows) {
+  const posts = latestByPost(rows);
+  const max = Math.max(...posts.map(r => r.cumulative_views), 1);
+  document.getElementById('bars').innerHTML = posts.map((row, index) => `
+    <div class="bar-row">
+      <div>
+        <div class="bar-name truncate">${row.post_label}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${(row.cumulative_views / max) * 100}%; background:${colors[index % colors.length]}"></div></div>
+      </div>
+      <div class="bar-value">${fmt(row.cumulative_views)}</div>
+    </div>
+  `).join('');
+}
+
+function drawFollowersChart(rows) {
+  const svg = document.getElementById('followersChart');
+  svg.innerHTML = '';
+  const data = uniqueDateFollows(rows);
+  if (!data.length) return;
+  const width = 920, height = 300;
+  const pad = { left: 58, right: 24, top: 24, bottom: 52 };
+  const maxY = Math.max(...data.map(r => r.account_new_follows), 10);
+  const slot = (width - pad.left - pad.right) / data.length;
+  const barW = Math.max(8, Math.min(24, slot * 0.62));
+  const y = val => height - pad.bottom - (val / maxY) * (height - pad.top - pad.bottom);
+  const el = (name, attrs = {}, text = '') => {
+    const node = document.createElementNS('http://www.w3.org/2000/svg', name);
+    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    if (text) node.textContent = text;
+    svg.appendChild(node);
+    return node;
+  };
+
+  for (let i = 0; i <= 4; i++) {
+    const value = Math.round(maxY * i / 4);
+    const yy = y(value);
+    el('line', { x1: pad.left, y1: yy, x2: width - pad.right, y2: yy, stroke: '#e5e9f0', 'stroke-width': 1 });
+    el('text', { x: pad.left - 12, y: yy + 4, 'text-anchor': 'end', fill: '#667085', 'font-size': 12 }, fmt(value));
+  }
+
+  const tickEvery = Math.max(1, Math.ceil(data.length / 8));
+  data.forEach((row, index) => {
+    const x = pad.left + index * slot + (slot - barW) / 2;
+    const barY = y(row.account_new_follows);
+    const rect = el('rect', {
+      x,
+      y: barY,
+      width: barW,
+      height: height - pad.bottom - barY,
+      rx: 3,
+      fill: row.account_new_follows >= 100 ? '#d35445' : '#16856a'
+    });
+    rect.innerHTML = `<title>${row.date}: ${fmt(row.account_new_follows)} new follows</title>`;
+    if (index % tickEvery === 0 || index === data.length - 1) {
+      el('text', { x: x + barW / 2, y: height - 22, 'text-anchor': 'middle', fill: '#667085', 'font-size': 12 }, shortDate(row.date));
+    }
+  });
+}
+
+function summarizePost(postRows) {
+  const rows = [...postRows].sort((a, b) => a.date.localeCompare(b.date));
+  const latest = rows.reduce((best, r) => r.cumulative_views >= best.cumulative_views ? r : best, rows[0]);
+  const peak = rows.reduce((best, r) => r.daily_views > best.daily_views ? r : best, rows[0]);
+  const firstThree = rows.slice(0, 3).reduce((sum, r) => sum + r.daily_views, 0);
+  const firstThreeShare = latest.cumulative_views ? Math.round((firstThree / latest.cumulative_views) * 1000) / 10 : 0;
+  const afterPeakRows = rows.filter(r => r.date > peak.date);
+  const afterPeakAverage = afterPeakRows.length
+    ? Math.round(afterPeakRows.reduce((sum, r) => sum + r.daily_views, 0) / afterPeakRows.length)
+    : 0;
+  const category = rows[0].post_category;
+  let insight;
+
+  if (category === 'Prediction campaign') {
+    if (firstThreeShare >= 85) {
+      insight = `Fast-burst prediction post: ${firstThreeShare}% of views arrived in the first three tracked days, then demand moved into a long-tail pattern.`;
+    } else if (afterPeakAverage > 1000) {
+      insight = `Strong sustained prediction post: the peak came on ${peak.date}, and the post still averaged ${fmt(afterPeakAverage)} daily views after the peak.`;
+    } else {
+      insight = `Prediction post with a clear early spike on ${peak.date}, followed by a softer daily tail.`;
+    }
+  } else if (category === 'Winner announcement') {
+    insight = `Winner announcement is kept out of the trend comparison because it has only same-day data so far; it remains included in total views.`;
+  } else {
+    insight = `Campaign announcement is kept out of the prediction trend comparison; it is useful as a baseline awareness post in total views.`;
+  }
+
+  return {
+    label: rows[0].post_label,
+    url: rows[0].post_url,
+    category,
+    total: latest.cumulative_views,
+    peakDay: peak.date,
+    peakViews: peak.daily_views,
+    firstThreeShare,
+    days: rows.length,
+    rows,
+    insight
+  };
+}
+
+function renderPostAnalysis(rows) {
+  const groups = new Map();
+  rows.forEach(row => {
+    if (!groups.has(row.post_label)) groups.set(row.post_label, []);
+    groups.get(row.post_label).push(row);
+  });
+  const summaries = [...groups.values()]
+    .map(summarizePost)
+    .sort((a, b) => b.total - a.total);
+
+  document.getElementById('postAnalysis').innerHTML = summaries.map(item => `
+    <article class="analysis-card">
+      <div class="analysis-top">
+        <h3 class="analysis-title"><a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.label}</a></h3>
+        <span class="pill">${item.category}</span>
+      </div>
+      <div class="analysis-metrics">
+        <div class="mini-metric">
+          <span>Total views</span>
+          <strong>${fmt(item.total)}</strong>
+        </div>
+        <div class="mini-metric">
+          <span>Peak day</span>
+          <strong>${item.peakDay}</strong>
+        </div>
+        <div class="mini-metric">
+          <span>Peak views</span>
+          <strong>${fmt(item.peakViews)}</strong>
+        </div>
+      </div>
+      <p class="analysis-copy">${item.insight}</p>
+      <p class="analysis-copy">Tracked days: ${item.days}. First-three-day contribution: ${item.firstThreeShare}% of latest cumulative views.</p>
+      <details class="daily-detail">
+        <summary>Daily detail</summary>
+        <div class="mini-table-wrap">
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Observation</th>
+                <th class="num">Daily Views</th>
+                <th class="num">Cumulative</th>
+                <th class="num">Account New Follows</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${item.rows.map(row => `
+                <tr>
+                  <td>${row.date}</td>
+                  <td>${row.observation_time_cst}</td>
+                  <td class="num">${fmt(row.daily_views)}</td>
+                  <td class="num">${fmt(row.cumulative_views)}</td>
+                  <td class="num">${fmt(row.account_new_follows)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </article>
+  `).join('');
+}
+
+function renderTable(rows) {
+  document.getElementById('rowCount').textContent = `${fmt(rows.length)} rows shown`;
+  document.getElementById('tableBody').innerHTML = rows.map(row => `
+    <tr>
+      <td>${row.post_label}</td>
+      <td><a class="post-link" href="${row.post_url}" target="_blank" rel="noopener noreferrer">View post</a></td>
+      <td><span class="pill">${row.post_category}</span></td>
+      <td>${row.date}</td>
+      <td>${row.observation_time_cst}</td>
+      <td class="num">${fmt(row.daily_views)}</td>
+      <td class="num">${fmt(row.cumulative_views)}</td>
+      <td class="num">${fmt(row.account_new_follows)}</td>
+      <td>${row.page}</td>
+      <td>${row.source_file}</td>
+    </tr>
+  `).join('');
+}
+
+function render() {
+  const rows = filteredRows();
+  const trendOnlyRows = trendRows(rows);
+  renderKpis(rows);
+  drawTrend(trendOnlyRows);
+  renderLegend(trendOnlyRows);
+  renderBars(rows);
+  drawFollowersChart(rows);
+  renderPostAnalysis(rows);
+  renderTable(rows);
+}
+
+setupFilters();
+render();
+  </script>
+</body>
+</html>

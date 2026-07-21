@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carlcare Kenya Facebook Page World Cup Data Dashboard</title>
+  <style>
+    :root {
+      --bg: #f7f9ff;
+      --panel: rgba(255, 255, 255, 0.72);
+      --panel-strong: rgba(255, 255, 255, 0.9);
+      --ink: #1f2a44;
+      --muted: #7a86a5;
+      --line: rgba(140, 154, 190, 0.18);
+      --blue: #5f7cf7;
+      --green: #47d7bf;
+      --red: #f06f9d;
+      --gold: #ffc65c;
+      --teal: #33c7dc;
+      --violet: #9b78ff;
+      --slate: #4b5878;
+      --shadow: 0 22px 70px rgba(74, 91, 145, 0.14);
+      --soft-shadow: 0 12px 32px rgba(88, 104, 160, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.72);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background:
+        linear-gradient(125deg, rgba(255,255,255,0.96) 0%, rgba(247,250,255,0.92) 38%, rgba(241,247,255,0.9) 100%),
+        radial-gradient(80% 45% at 78% -8%, rgba(141, 193, 255, 0.34), transparent 64%),
+        radial-gradient(70% 42% at 28% 8%, rgba(180, 140, 255, 0.2), transparent 62%),
+        linear-gradient(90deg, rgba(85, 217, 206, 0.08), rgba(255, 159, 211, 0.1));
+      color: var(--ink);
+      font-family: "SF Pro Display", "SF Pro Text", Inter, Arial, "Helvetica Neue", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(115deg, transparent 10%, rgba(104, 171, 255, 0.11) 31%, transparent 48%),
+        linear-gradient(150deg, transparent 35%, rgba(255, 177, 226, 0.12) 50%, transparent 72%);
+      opacity: 0.9;
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.22) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.18), transparent 58%);
+      z-index: -1;
+    }
+
+    .shell {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      min-height: 210px;
+      padding: 30px 32px;
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.88), rgba(255,255,255,0.58)),
+        radial-gradient(70% 85% at 88% 12%, rgba(136, 207, 255, 0.34), transparent 65%),
+        linear-gradient(95deg, rgba(151, 120, 255, 0.16), rgba(79, 216, 204, 0.1));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(24px) saturate(1.22);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      right: 6%;
+      top: -34%;
+      width: 360px;
+      height: 360px;
+      border: 1px solid rgba(255,255,255,0.64);
+      border-radius: 50%;
+      background:
+        conic-gradient(from 140deg, rgba(98, 127, 255, 0.08), rgba(70, 220, 199, 0.22), rgba(255, 133, 212, 0.14), rgba(98, 127, 255, 0.08));
+      box-shadow: inset 0 0 34px rgba(255,255,255,0.72), 0 24px 70px rgba(112, 132, 214, 0.18);
+      filter: blur(0.2px);
+      opacity: 0.9;
+    }
+
+    header > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      max-width: 780px;
+      font-size: clamp(36px, 4.8vw, 68px);
+      line-height: 1.02;
+      font-weight: 760;
+      letter-spacing: 0;
+      color: #7467f2;
+      text-wrap: balance;
+    }
+
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      max-width: 640px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      height: 36px;
+      padding: 0 15px;
+      border: 1px solid rgba(255,255,255,0.66);
+      background: rgba(255,255,255,0.58);
+      border-radius: 999px;
+      color: var(--slate);
+      font-size: 13px;
+      font-weight: 650;
+      white-space: nowrap;
+      box-shadow: 0 10px 28px rgba(118, 133, 196, 0.12);
+      backdrop-filter: blur(18px);
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0 18px;
+    }
+
+    .kpi {
+      background: linear-gradient(145deg, rgba(255,255,255,0.88), rgba(255,255,255,0.58));
+      border: 1px solid var(--glass-border);
+      border-radius: 22px;
+      padding: 18px 18px 16px;
+      min-height: 128px;
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(20px) saturate(1.15);
+      position: relative;
+      overflow: hidden;
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+
+    .kpi:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 54px rgba(88, 104, 160, 0.16);
+    }
+
+    .kpi::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--green), #f28bd5);
+      opacity: 0.72;
+    }
+
+    .kpi span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .kpi strong {
+      display: block;
+      margin-top: 12px;
+      font-size: clamp(24px, 2.3vw, 34px);
+      line-height: 1;
+      color: #23304f;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi em {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-style: normal;
+      line-height: 1.35;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 18px 0 20px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.66);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.54);
+      box-shadow: 0 12px 36px rgba(88, 104, 160, 0.09);
+      backdrop-filter: blur(22px);
+    }
+
+    select, input {
+      height: 42px;
+      border: 1px solid rgba(126, 143, 190, 0.16);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.78);
+      color: var(--ink);
+      padding: 0 14px;
+      font-size: 14px;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.76);
+      transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: rgba(112, 131, 255, 0.56);
+      box-shadow: 0 0 0 4px rgba(112, 131, 255, 0.12);
+    }
+
+    input {
+      width: min(320px, 100%);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.48fr) minmax(360px, .62fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--glass-border);
+      border-radius: 26px;
+      padding: 22px;
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(22px) saturate(1.12);
+      overflow: hidden;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.25;
+      color: #26324f;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      max-width: 420px;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 12px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(126, 143, 190, 0.12);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      color: var(--slate);
+      font-size: 12px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex: 0 0 10px;
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.7);
+    }
+
+    .truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .bars {
+      display: grid;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 88px;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .bar-name {
+      font-size: 13px;
+      color: var(--slate);
+      margin-bottom: 6px;
+      font-weight: 650;
+    }
+
+    .bar-track {
+      height: 11px;
+      background: rgba(229, 235, 249, 0.82);
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 2px rgba(77, 91, 145, 0.08);
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .bar-value {
+      text-align: right;
+      font-size: 13px;
+      font-weight: 730;
+    }
+
+    .followers-section {
+      margin-top: 18px;
+    }
+
+    .analysis-section {
+      margin-top: 18px;
+    }
+
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .analysis-card {
+      border: 1px solid rgba(255,255,255,0.68);
+      border-radius: 24px;
+      padding: 18px;
+      background: linear-gradient(150deg, rgba(255,255,255,0.86), rgba(255,255,255,0.58));
+      min-height: 226px;
+      box-shadow: 0 16px 42px rgba(88, 104, 160, 0.1);
+      backdrop-filter: blur(18px);
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+
+    .analysis-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 58px rgba(88, 104, 160, 0.14);
+    }
+
+    .analysis-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .analysis-title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .analysis-title a,
+    .post-link {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 760;
+    }
+
+    .analysis-title a:hover,
+    .post-link:hover {
+      text-decoration: underline;
+    }
+
+    .analysis-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .mini-metric {
+      border: 1px solid rgba(126, 143, 190, 0.12);
+      border-radius: 16px;
+      padding: 11px;
+      background: rgba(255,255,255,0.72);
+      min-height: 68px;
+    }
+
+    .mini-metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 730;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+      letter-spacing: 0;
+    }
+
+    .mini-metric strong {
+      display: block;
+      font-size: 17px;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+      color: #253151;
+    }
+
+    .analysis-copy {
+      margin: 0;
+      color: var(--slate);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    details.daily-detail {
+      margin-top: 12px;
+      border-top: 1px solid rgba(126, 143, 190, 0.14);
+      padding-top: 10px;
+    }
+
+    details.daily-detail summary {
+      cursor: pointer;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 720;
+      list-style-position: inside;
+      transition: color 200ms ease;
+    }
+
+    details.daily-detail summary:hover {
+      color: var(--violet);
+    }
+
+    .mini-table-wrap {
+      overflow: auto;
+      margin-top: 10px;
+      border: 1px solid rgba(126, 143, 190, 0.14);
+      border-radius: 16px;
+      max-height: 260px;
+      background: rgba(255,255,255,0.6);
+    }
+
+    .mini-table {
+      min-width: 620px;
+      font-size: 12px;
+    }
+
+    .mini-table th,
+    .mini-table td {
+      padding: 8px 10px;
+    }
+
+    .table-section {
+      margin-top: 18px;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .table-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(126, 143, 190, 0.14);
+      background: rgba(255,255,255,0.34);
+    }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: 560px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1120px;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(126, 143, 190, 0.1);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: rgba(250,252,255,0.96);
+      color: var(--slate);
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    td.num, th.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(238, 244, 255, 0.86);
+      color: #5068d8;
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.72);
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      padding: 18px 6px 4px;
+    }
+
+    @media (max-width: 980px) {
+      .shell { padding: 18px; }
+      header, .grid { grid-template-columns: 1fr; }
+      header { min-height: auto; }
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .analysis-grid { grid-template-columns: 1fr; }
+      .legend { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      h1 { font-size: 26px; }
+      .kpis { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div>
+        <h1>Carlcare Kenya Facebook Page World Cup Data Dashboard</h1>
+        <p class="sub">Daily Views performance for Kenya World Cup campaign, prediction, and winner announcement posts. Metric scope: Views only, not Reach.</p>
+        <div class="tags" aria-label="Dashboard scope tags">
+          <span class="badge">Views only</span>
+          <span class="badge">Prediction trend</span>
+          <span class="badge">Account follows</span>
+          <span class="badge">Post analysis</span>
+        </div>
+      </div>
+      <div class="badge">Generated: 2026-07-21</div>
+    </header>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="toolbar">
+      <select id="categoryFilter" aria-label="Filter by category"></select>
+      <select id="postFilter" aria-label="Filter by post"></select>
+      <input id="searchInput" type="search" placeholder="Search post or date">
+      <span class="hint" id="rowCount"></span>
+    </div>
+
+    <div class="grid">
+      <section>
+        <div class="section-title">
+          <h2>Daily Views Trend</h2>
+          <span class="hint">Only prediction posts are shown in the trend line; other posts stay in total views.</span>
+        </div>
+        <svg id="trendChart" viewBox="0 0 920 430" role="img" aria-label="Daily views trend chart"></svg>
+        <div class="legend" id="legend"></div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <h2>Total Views by Post</h2>
+          <span class="hint">Latest cumulative_views per post.</span>
+        </div>
+        <div class="bars" id="bars"></div>
+      </section>
+    </div>
+
+    <section class="followers-section">
+      <div class="section-title">
+        <h2>Account Followers Growth by Date</h2>
+        <span class="hint">Unduplicated account-level new follows for Carlcare Service (KE), matched by date.</span>
+      </div>
+      <svg id="followersChart" viewBox="0 0 920 300" role="img" aria-label="Account followers growth by date"></svg>
+    </section>
+
+    <section class="analysis-section">
+      <div class="section-title">
+        <h2>Post Analysis</h2>
+        <span class="hint">Each card is calculated from the same master table.</span>
+      </div>
+      <div class="analysis-grid" id="postAnalysis"></div>
+    </section>
+
+    <section class="table-section">
+      <div class="table-head">
+        <div>
+          <h2>Master Table</h2>
+          <div class="hint">One row equals one post on one date.</div>
+        </div>
+        <div class="hint">Source: Meta Business Suite Object Insights Views chart</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Post</th>
+              <th>Post Link</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Observation Time</th>
+              <th class="num">Daily Views</th>
+              <th class="num">Cumulative Views</th>
+              <th class="num">Account New Follows</th>
+              <th>Page</th>
+              <th>Source File</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      Data caveat: Account followers growth is date-level account data for Carlcare Service (KE). The trend line shows prediction posts only; campaign and winner announcement posts stay in total views, post analysis, and the master table. Some Business Suite overview totals can be slightly higher than chart-attributed daily rows, so the master table preserves the visible chart series rather than forcing unassigned views into a date.
+    </footer>
+  </div>
+
+  <script>
+const CSV_DATA = `post_label,post_url,post_category,page,date,observation_time_cst,cumulative_views,daily_views,account_new_follows,source,source_file
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-08,2026-07-08 23:53,9398,9398,12,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-09,2026-07-09 21:23,27424,18026,11,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-10,2026-07-10 21:23,44280,16856,17,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-11,2026-07-11 21:23,64645,20365,8,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-12,2026-07-12 15:23,81186,16541,11,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-13,2026-07-13 15:23,83980,2794,12,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-14,2026-07-14 15:23,84011,31,6,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-15,2026-07-15 15:23,84032,21,2066,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-16,2026-07-16 15:23,84135,103,17,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-21,2026-07-21 15:23,84169,34,25,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-18,2026-07-18 15:23,84185,16,18,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-19,2026-07-19 15:23,84199,14,591,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Belgium vs Spain Prediction,https://web.facebook.com/CarlcareServiceKE/posts/pfbid02cmUkSGCort7jRKfRr9xs5am1F5NvoSm9JL4tGxPf2BkNX31YzBfFHFL4PpRQV1e8l,Prediction campaign,Carlcare Service (KE),2026-07-20,2026-07-20 15:23,84216,17,48,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Belgium-vs-Spain-Prediction_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-06-29,2026-06-29 23:49,19520,19520,291,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-06-30,2026-06-30 23:49,31798,12278,62,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-01,2026-07-01 23:49,32895,1097,107,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-02,2026-07-02 23:49,33306,411,15,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-03,2026-07-03 17:49,33472,166,17,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-04,2026-07-04 17:49,33594,122,10,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-05,2026-07-05 17:49,33653,59,10,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-06,2026-07-06 17:49,33721,68,19,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-07,2026-07-07 17:49,33759,38,7,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-08,2026-07-08 17:49,33791,32,12,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-09,2026-07-09 17:49,33808,17,11,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-10,2026-07-10 17:49,33828,20,17,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-11,2026-07-11 17:49,33840,12,8,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-12,2026-07-12 17:49,33856,16,11,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-13,2026-07-13 17:49,33861,5,12,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-14,2026-07-14 17:49,33873,12,6,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-15,2026-07-15 17:49,33882,9,2066,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-16,2026-07-16 17:49,33903,21,17,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-21,2026-07-21 17:49,33912,9,25,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-18,2026-07-18 17:49,33919,7,18,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-19,2026-07-19 17:49,33921,2,591,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Kenya Score Prediction Giveaway,https://www.facebook.com/CarlcareServiceKE/posts/pfbid02M38ghb7U2XUMBfb6q1P2crA8G5m4VTyuino9octtnsGCryBrh9LwuA4bbeQeR5B4l,Prediction campaign,Carlcare Service (KE),2026-07-20,2026-07-20 17:49,33929,8,48,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Kenya-Score-Prediction-Giveaway_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-03,2026-07-03 23:34,1808,1808,17,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-04,2026-07-04 23:34,2719,911,10,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-05,2026-07-05 23:34,3045,326,10,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-06,2026-07-06 23:34,3319,274,19,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-07,2026-07-07 17:34,3388,69,7,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-08,2026-07-08 17:34,3440,52,12,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-09,2026-07-09 17:34,3480,40,11,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-10,2026-07-10 17:34,3502,22,17,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-11,2026-07-11 17:34,3515,13,8,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-12,2026-07-12 17:34,3538,23,11,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-13,2026-07-13 17:34,3542,4,12,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-14,2026-07-14 17:34,3561,19,6,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-15,2026-07-15 17:34,3575,14,2066,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-16,2026-07-16 17:34,3615,40,17,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-21,2026-07-21 17:34,3628,13,25,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-18,2026-07-18 17:34,3642,14,18,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-19,2026-07-19 17:34,3647,5,591,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+Predict & Win Winners Announcement,https://www.facebook.com/CarlcareServiceKE/posts/pfbid06fKQW664ETg5YdxyeyWSdG1xRnd7cXKXjeHeMKTWRyubayAxun8jAGcRkTPw4aqDl,Winner announcement,Carlcare Service (KE),2026-07-20,2026-07-20 17:34,3664,17,48,Meta Business Suite Object Insights Views chart,2026-07-21_KE_Predict-Win-Winners-Announcement_Daily-Views.csv
+`;
+
+const colors = ['#2d6cdf', '#16856a', '#d35445', '#bd7b16', '#0f8b8d', '#7a5cff', '#344054'];
+
+function parseCSV(csv) {
+  const lines = csv.trim().replace(/^\uFEFF/, '').split(/\n/);
+  const headers = lines[0].split(',');
+  return lines.slice(1).map(line => {
+    const cells = line.split(',');
+    const row = {};
+    headers.forEach((h, i) => row[h] = cells[i] || '');
+    row.cumulative_views = Number(row.cumulative_views);
+    row.daily_views = Number(row.daily_views);
+    row.account_new_follows = Number(row.account_new_follows || 0);
+    return row;
+  });
+}
+
+const allRows = parseCSV(CSV_DATA);
+const state = { category: 'All categories', post: 'All posts', search: '' };
+
+function fmt(n) {
+  return Number(n).toLocaleString('en-US');
+}
+
+function shortDate(d) {
+  return d.slice(5);
+}
+
+function unique(items) {
+  return [...new Set(items)];
+}
+
+function latestByPost(rows) {
+  const map = new Map();
+  rows.forEach(row => {
+    const current = map.get(row.post_label);
+    if (!current || row.date > current.date || (row.date === current.date && row.cumulative_views > current.cumulative_views)) {
+      map.set(row.post_label, row);
+    }
+  });
+  return [...map.values()].sort((a, b) => b.cumulative_views - a.cumulative_views);
+}
+
+function uniqueDateFollows(rows) {
+  const map = new Map();
+  rows.forEach(row => {
+    map.set(row.date, row.account_new_follows);
+  });
+  return [...map.entries()]
+    .map(([date, account_new_follows]) => ({ date, account_new_follows }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function sumUniqueDateFollows(rows) {
+  return uniqueDateFollows(rows).reduce((sum, row) => sum + row.account_new_follows, 0);
+}
+
+
+function trendRows(rows) {
+  return rows.filter(row => row.post_category === 'Prediction campaign');
+}
+
+function filteredRows() {
+  const query = state.search.trim().toLowerCase();
+  return allRows.filter(row => {
+    const catOk = state.category === 'All categories' || row.post_category === state.category;
+    const postOk = state.post === 'All posts' || row.post_label === state.post;
+    const searchOk = !query || `${row.post_label} ${row.post_category} ${row.date}`.toLowerCase().includes(query);
+    return catOk && postOk && searchOk;
+  });
+}
+
+function setupFilters() {
+  const categoryFilter = document.getElementById('categoryFilter');
+  const postFilter = document.getElementById('postFilter');
+  const categories = ['All categories', ...unique(allRows.map(r => r.post_category))];
+  categoryFilter.innerHTML = categories.map(c => `<option>${c}</option>`).join('');
+  categoryFilter.addEventListener('change', () => {
+    state.category = categoryFilter.value;
+    state.post = 'All posts';
+    renderPostFilter();
+    render();
+  });
+  postFilter.addEventListener('change', () => {
+    state.post = postFilter.value;
+    render();
+  });
+  document.getElementById('searchInput').addEventListener('input', event => {
+    state.search = event.target.value;
+    render();
+  });
+  renderPostFilter();
+}
+
+function renderPostFilter() {
+  const postFilter = document.getElementById('postFilter');
+  const source = state.category === 'All categories' ? allRows : allRows.filter(r => r.post_category === state.category);
+  const posts = ['All posts', ...unique(source.map(r => r.post_label))];
+  postFilter.innerHTML = posts.map(p => `<option>${p}</option>`).join('');
+  postFilter.value = state.post;
+}
+
+function renderKpis(rows) {
+  const posts = latestByPost(rows);
+  const total = posts.reduce((sum, r) => sum + r.cumulative_views, 0);
+  const totalFollows = sumUniqueDateFollows(rows);
+  const topPost = posts[0];
+  const peak = rows.reduce((best, r) => r.daily_views > best.daily_views ? r : best, rows[0] || { daily_views: 0, post_label: '-', date: '-' });
+  const categories = unique(rows.map(r => r.post_category)).length;
+  const cards = [
+    ['Posts', fmt(posts.length), `${categories} ${categories === 1 ? 'category' : 'categories'}`],
+    ['Total Views', fmt(total), 'Latest cumulative views by post'],
+    ['Account Follows', fmt(totalFollows), 'Unduplicated new follows by date'],
+    ['Top Post', topPost ? fmt(topPost.cumulative_views) : '0', topPost ? topPost.post_label : '-'],
+    ['Highest Daily Peak', fmt(peak.daily_views), `${peak.post_label} · ${peak.date}`]
+  ];
+  document.getElementById('kpis').innerHTML = cards.map(card => `
+    <div class="kpi">
+      <span>${card[0]}</span>
+      <strong>${card[1]}</strong>
+      <em>${card[2]}</em>
+    </div>
+  `).join('');
+}
+
+function drawTrend(rows) {
+  const svg = document.getElementById('trendChart');
+  svg.innerHTML = '';
+  if (!rows.length) return;
+  const width = 920, height = 430;
+  const pad = { left: 62, right: 24, top: 24, bottom: 54 };
+  const dates = unique(rows.map(r => r.date)).sort();
+  const posts = unique(rows.map(r => r.post_label));
+  const maxY = Math.max(...rows.map(r => r.daily_views), 10);
+  const x = date => pad.left + (dates.indexOf(date) / Math.max(dates.length - 1, 1)) * (width - pad.left - pad.right);
+  const y = val => height - pad.bottom - (val / maxY) * (height - pad.top - pad.bottom);
+  const el = (name, attrs = {}, text = '') => {
+    const node = document.createElementNS('http://www.w3.org/2000/svg', name);
+    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    if (text) node.textContent = text;
+    svg.appendChild(node);
+    return node;
+  };
+
+  for (let i = 0; i <= 4; i++) {
+    const value = Math.round(maxY * i / 4);
+    const yy = y(value);
+    el('line', { x1: pad.left, y1: yy, x2: width - pad.right, y2: yy, stroke: '#e5e9f0', 'stroke-width': 1 });
+    el('text', { x: pad.left - 12, y: yy + 4, 'text-anchor': 'end', fill: '#667085', 'font-size': 12 }, fmt(value));
+  }
+
+  const tickEvery = Math.max(1, Math.ceil(dates.length / 7));
+  dates.forEach((date, index) => {
+    if (index % tickEvery === 0 || index === dates.length - 1) {
+      const xx = x(date);
+      el('text', { x: xx, y: height - 22, 'text-anchor': 'middle', fill: '#667085', 'font-size': 12 }, shortDate(date));
+    }
+  });
+
+  posts.forEach((post, index) => {
+    const postRows = rows.filter(r => r.post_label === post).sort((a, b) => a.date.localeCompare(b.date));
+    const color = colors[index % colors.length];
+    const points = postRows.map(r => `${x(r.date)},${y(r.daily_views)}`).join(' ');
+    el('polyline', { points, fill: 'none', stroke: color, 'stroke-width': 3, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' });
+    postRows.forEach(r => {
+      const circle = el('circle', { cx: x(r.date), cy: y(r.daily_views), r: 3.2, fill: color });
+      circle.innerHTML = `<title>${post} · ${r.date}: ${fmt(r.daily_views)} views</title>`;
+    });
+  });
+}
+
+function renderLegend(rows) {
+  const posts = unique(rows.map(r => r.post_label));
+  document.getElementById('legend').innerHTML = posts.map((post, index) => `
+    <div class="legend-item">
+      <span class="dot" style="background:${colors[index % colors.length]}"></span>
+      <span class="truncate">${post}</span>
+    </div>
+  `).join('');
+}
+
+function renderBars(rows) {
+  const posts = latestByPost(rows);
+  const max = Math.max(...posts.map(r => r.cumulative_views), 1);
+  document.getElementById('bars').innerHTML = posts.map((row, index) => `
+    <div class="bar-row">
+      <div>
+        <div class="bar-name truncate">${row.post_label}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${(row.cumulative_views / max) * 100}%; background:${colors[index % colors.length]}"></div></div>
+      </div>
+      <div class="bar-value">${fmt(row.cumulative_views)}</div>
+    </div>
+  `).join('');
+}
+
+function drawFollowersChart(rows) {
+  const svg = document.getElementById('followersChart');
+  svg.innerHTML = '';
+  const data = uniqueDateFollows(rows);
+  if (!data.length) return;
+  const width = 920, height = 300;
+  const pad = { left: 58, right: 24, top: 24, bottom: 52 };
+  const maxY = Math.max(...data.map(r => r.account_new_follows), 10);
+  const slot = (width - pad.left - pad.right) / data.length;
+  const barW = Math.max(8, Math.min(24, slot * 0.62));
+  const y = val => height - pad.bottom - (val / maxY) * (height - pad.top - pad.bottom);
+  const el = (name, attrs = {}, text = '') => {
+    const node = document.createElementNS('http://www.w3.org/2000/svg', name);
+    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    if (text) node.textContent = text;
+    svg.appendChild(node);
+    return node;
+  };
+
+  for (let i = 0; i <= 4; i++) {
+    const value = Math.round(maxY * i / 4);
+    const yy = y(value);
+    el('line', { x1: pad.left, y1: yy, x2: width - pad.right, y2: yy, stroke: '#e5e9f0', 'stroke-width': 1 });
+    el('text', { x: pad.left - 12, y: yy + 4, 'text-anchor': 'end', fill: '#667085', 'font-size': 12 }, fmt(value));
+  }
+
+  const tickEvery = Math.max(1, Math.ceil(data.length / 8));
+  data.forEach((row, index) => {
+    const x = pad.left + index * slot + (slot - barW) / 2;
+    const barY = y(row.account_new_follows);
+    const rect = el('rect', {
+      x,
+      y: barY,
+      width: barW,
+      height: height - pad.bottom - barY,
+      rx: 3,
+      fill: row.account_new_follows >= 100 ? '#d35445' : '#16856a'
+    });
+    rect.innerHTML = `<title>${row.date}: ${fmt(row.account_new_follows)} new follows</title>`;
+    if (index % tickEvery === 0 || index === data.length - 1) {
+      el('text', { x: x + barW / 2, y: height - 22, 'text-anchor': 'middle', fill: '#667085', 'font-size': 12 }, shortDate(row.date));
+    }
+  });
+}
+
+function summarizePost(postRows) {
+  const rows = [...postRows].sort((a, b) => a.date.localeCompare(b.date));
+  const latest = rows.reduce((best, r) => r.cumulative_views >= best.cumulative_views ? r : best, rows[0]);
+  const peak = rows.reduce((best, r) => r.daily_views > best.daily_views ? r : best, rows[0]);
+  const firstThree = rows.slice(0, 3).reduce((sum, r) => sum + r.daily_views, 0);
+  const firstThreeShare = latest.cumulative_views ? Math.round((firstThree / latest.cumulative_views) * 1000) / 10 : 0;
+  const afterPeakRows = rows.filter(r => r.date > peak.date);
+  const afterPeakAverage = afterPeakRows.length
+    ? Math.round(afterPeakRows.reduce((sum, r) => sum + r.daily_views, 0) / afterPeakRows.length)
+    : 0;
+  const category = rows[0].post_category;
+  let insight;
+
+  if (category === 'Prediction campaign') {
+    if (firstThreeShare >= 85) {
+      insight = `Fast-burst prediction post: ${firstThreeShare}% of views arrived in the first three tracked days, then demand moved into a long-tail pattern.`;
+    } else if (afterPeakAverage > 1000) {
+      insight = `Strong sustained prediction post: the peak came on ${peak.date}, and the post still averaged ${fmt(afterPeakAverage)} daily views after the peak.`;
+    } else {
+      insight = `Prediction post with a clear early spike on ${peak.date}, followed by a softer daily tail.`;
+    }
+  } else if (category === 'Winner announcement') {
+    insight = `Winner announcement is kept out of the trend comparison because it has only same-day data so far; it remains included in total views.`;
+  } else {
+    insight = `Campaign announcement is kept out of the prediction trend comparison; it is useful as a baseline awareness post in total views.`;
+  }
+
+  return {
+    label: rows[0].post_label,
+    url: rows[0].post_url,
+    category,
+    total: latest.cumulative_views,
+    peakDay: peak.date,
+    peakViews: peak.daily_views,
+    firstThreeShare,
+    days: rows.length,
+    rows,
+    insight
+  };
+}
+
+function renderPostAnalysis(rows) {
+  const groups = new Map();
+  rows.forEach(row => {
+    if (!groups.has(row.post_label)) groups.set(row.post_label, []);
+    groups.get(row.post_label).push(row);
+  });
+  const summaries = [...groups.values()]
+    .map(summarizePost)
+    .sort((a, b) => b.total - a.total);
+
+  document.getElementById('postAnalysis').innerHTML = summaries.map(item => `
+    <article class="analysis-card">
+      <div class="analysis-top">
+        <h3 class="analysis-title"><a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.label}</a></h3>
+        <span class="pill">${item.category}</span>
+      </div>
+      <div class="analysis-metrics">
+        <div class="mini-metric">
+          <span>Total views</span>
+          <strong>${fmt(item.total)}</strong>
+        </div>
+        <div class="mini-metric">
+          <span>Peak day</span>
+          <strong>${item.peakDay}</strong>
+        </div>
+        <div class="mini-metric">
+          <span>Peak views</span>
+          <strong>${fmt(item.peakViews)}</strong>
+        </div>
+      </div>
+      <p class="analysis-copy">${item.insight}</p>
+      <p class="analysis-copy">Tracked days: ${item.days}. First-three-day contribution: ${item.firstThreeShare}% of latest cumulative views.</p>
+      <details class="daily-detail">
+        <summary>Daily detail</summary>
+        <div class="mini-table-wrap">
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Observation</th>
+                <th class="num">Daily Views</th>
+                <th class="num">Cumulative</th>
+                <th class="num">Account New Follows</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${item.rows.map(row => `
+                <tr>
+                  <td>${row.date}</td>
+                  <td>${row.observation_time_cst}</td>
+                  <td class="num">${fmt(row.daily_views)}</td>
+                  <td class="num">${fmt(row.cumulative_views)}</td>
+                  <td class="num">${fmt(row.account_new_follows)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </article>
+  `).join('');
+}
+
+function renderTable(rows) {
+  document.getElementById('rowCount').textContent = `${fmt(rows.length)} rows shown`;
+  document.getElementById('tableBody').innerHTML = rows.map(row => `
+    <tr>
+      <td>${row.post_label}</td>
+      <td><a class="post-link" href="${row.post_url}" target="_blank" rel="noopener noreferrer">View post</a></td>
+      <td><span class="pill">${row.post_category}</span></td>
+      <td>${row.date}</td>
+      <td>${row.observation_time_cst}</td>
+      <td class="num">${fmt(row.daily_views)}</td>
+      <td class="num">${fmt(row.cumulative_views)}</td>
+      <td class="num">${fmt(row.account_new_follows)}</td>
+      <td>${row.page}</td>
+      <td>${row.source_file}</td>
+    </tr>
+  `).join('');
+}
+
+function render() {
+  const rows = filteredRows();
+  const trendOnlyRows = trendRows(rows);
+  renderKpis(rows);
+  drawTrend(trendOnlyRows);
+  renderLegend(trendOnlyRows);
+  renderBars(rows);
+  drawFollowersChart(rows);
+  renderPostAnalysis(rows);
+  renderTable(rows);
+}
+
+setupFilters();
+render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+{
+  "collected_on": "2026-11-10",
+  "source": "Meta Business Suite",
+  "posts": [
+    {
+      "title": "Sri Lanka vs Bhutan Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172",
+      "views": 12116,
+      "latest_date": "2026-11-10"
+    },
+    {
+      "title": "Maldives vs Pakistan Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172",
+      "views": 13914,
+      "latest_date": "2026-11-10"
+    },
+    {
+      "title": "Bangladesh vs Bhutan Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172",
+      "views": 26961,
+      "latest_date": "2026-11-10"
+    },
+    {
+      "title": "Pakistan vs India Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172",
+      "views": 23612,
+      "latest_date": "2026-11-10"
+    }
+  ],
+  "total_views": 76603,
+  "account_follows": 459,
+  "follows": [
+    {
+      "timestamp": 1793779200,
+      "observation_time_cst": "2026-11-04 16:00",
+      "date": "2026-11-04",
+      "value": 189
+    },
+    {
+      "timestamp": 1793865600,
+      "observation_time_cst": "2026-11-05 16:00",
+      "date": "2026-11-05",
+      "value": 115
+    },
+    {
+      "timestamp": 1793952000,
+      "observation_time_cst": "2026-11-06 16:00",
+      "date": "2026-11-06",
+      "value": 32
+    },
+    {
+      "timestamp": 1794038400,
+      "observation_time_cst": "2026-11-07 16:00",
+      "date": "2026-11-07",
+      "value": 69
+    },
+    {
+      "timestamp": 1794124800,
+      "observation_time_cst": "2026-11-08 16:00",
+      "date": "2026-11-08",
+      "value": 31
+    },
+    {
+      "timestamp": 1794211200,
+      "observation_time_cst": "2026-11-09 16:00",
+      "date": "2026-11-09",
+      "value": 23
+    },
+    {
+      "timestamp": 1794297600,
+      "observation_time_cst": "2026-11-10 16:00",
+      "date": "2026-11-10",
+      "value": 0
+    }
+  ],
+  "rows": 21
+}

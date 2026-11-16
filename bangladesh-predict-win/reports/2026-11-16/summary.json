@@ -1,0 +1,193 @@
+{
+  "collected_on": "2026-11-16",
+  "observed_at_beijing": "2026-11-16 14:47",
+  "source": "Meta Business Suite charts through 2026-11-10 plus Meta Graph API v24.0 lifetime post_media_view on 2026-11-16",
+  "posts": [
+    {
+      "title": "Sri Lanka vs Bhutan Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172",
+      "views": 12917,
+      "latest_date": "2026-11-16",
+      "kind": "existing",
+      "reactions": 338,
+      "comments": 368,
+      "shares": 120,
+      "publish_time_beijing": "2026-11-07 18:30"
+    },
+    {
+      "title": "Maldives vs Pakistan Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172",
+      "views": 14787,
+      "latest_date": "2026-11-16",
+      "kind": "existing",
+      "reactions": 329,
+      "comments": 349,
+      "shares": 132,
+      "publish_time_beijing": "2026-11-07 13:11"
+    },
+    {
+      "title": "Bangladesh vs Bhutan Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172",
+      "views": 27303,
+      "latest_date": "2026-11-16",
+      "kind": "existing",
+      "reactions": 469,
+      "comments": 563,
+      "shares": 181,
+      "publish_time_beijing": "2026-11-05 12:41"
+    },
+    {
+      "title": "Pakistan vs India Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172",
+      "views": 23857,
+      "latest_date": "2026-11-16",
+      "kind": "existing",
+      "reactions": 418,
+      "comments": 493,
+      "shares": 155,
+      "publish_time_beijing": "2026-11-04 21:27"
+    },
+    {
+      "title": "India vs Maldives Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172",
+      "views": 11578,
+      "latest_date": "2026-11-16",
+      "kind": "existing",
+      "reactions": 342,
+      "comments": 364,
+      "shares": 137,
+      "publish_time_beijing": "2026-11-09 20:07"
+    },
+    {
+      "title": "Bangladesh vs Sri Lanka Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172",
+      "views": 17313,
+      "latest_date": "2026-11-16",
+      "kind": "baseline",
+      "reactions": 424,
+      "comments": 481,
+      "shares": 178,
+      "publish_time_beijing": "2026-11-10 12:13"
+    },
+    {
+      "title": "India vs Bhutan Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172",
+      "views": 12190,
+      "latest_date": "2026-11-16",
+      "kind": "baseline",
+      "reactions": 354,
+      "comments": 369,
+      "shares": 159,
+      "publish_time_beijing": "2026-11-12 14:49"
+    },
+    {
+      "title": "Bangladesh vs Pakistan Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172",
+      "views": 20738,
+      "latest_date": "2026-11-16",
+      "kind": "baseline",
+      "reactions": 433,
+      "comments": 585,
+      "shares": 179,
+      "publish_time_beijing": "2026-11-13 10:57"
+    },
+    {
+      "title": "India vs Pakistan Prediction",
+      "url": "https://www.facebook.com/photo?fbid=1476808697883375&set=a.595957482635172",
+      "views": 1952,
+      "latest_date": "2026-11-16",
+      "kind": "publish_day",
+      "reactions": 169,
+      "comments": 201,
+      "shares": 67,
+      "publish_time_beijing": "2026-11-16 12:16"
+    }
+  ],
+  "total_views": 142635,
+  "account_follows": 698,
+  "account_follows_api_corrected_incl_partial": 698,
+  "follows": [
+    {
+      "date": "2026-11-04",
+      "value": 189,
+      "source": "existing_csv"
+    },
+    {
+      "date": "2026-11-05",
+      "value": 115,
+      "source": "existing_csv"
+    },
+    {
+      "date": "2026-11-06",
+      "value": 32,
+      "source": "existing_csv"
+    },
+    {
+      "date": "2026-11-07",
+      "value": 69,
+      "source": "existing_csv"
+    },
+    {
+      "date": "2026-11-08",
+      "value": 31,
+      "source": "existing_csv"
+    },
+    {
+      "date": "2026-11-09",
+      "value": 55,
+      "source": "api_page_daily_follows_unique"
+    },
+    {
+      "date": "2026-11-10",
+      "value": 59,
+      "source": "api_page_daily_follows_unique"
+    },
+    {
+      "date": "2026-11-11",
+      "value": 19,
+      "source": "api_page_daily_follows_unique"
+    },
+    {
+      "date": "2026-11-12",
+      "value": 35,
+      "source": "api_page_daily_follows_unique"
+    },
+    {
+      "date": "2026-11-13",
+      "value": 57,
+      "source": "api_page_daily_follows_unique"
+    },
+    {
+      "date": "2026-11-14",
+      "value": 20,
+      "source": "api_page_daily_follows_unique"
+    },
+    {
+      "date": "2026-11-15",
+      "value": 17,
+      "source": "api_page_daily_follows_unique"
+    },
+    {
+      "date": "2026-11-16",
+      "value": 0,
+      "source": "api_page_daily_follows_unique"
+    }
+  ],
+  "follows_discrepancies": [
+    {
+      "date": "2026-11-09",
+      "existing_csv": 23,
+      "api_complete": 55,
+      "kept": 55,
+      "action": "updated_to_complete_api"
+    },
+    {
+      "date": "2026-11-10",
+      "existing_csv": 0,
+      "api_complete": 59,
+      "kept": 59,
+      "action": "updated_to_complete_api"
+    }
+  ],
+  "rows": 70
+}

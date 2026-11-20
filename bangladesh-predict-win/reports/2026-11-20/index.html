@@ -1,0 +1,1168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carlcare Bangladesh Facebook Predict & Win Data Dashboard</title>
+  <style>
+    :root {
+      --bg: #f7f9ff;
+      --panel: rgba(255, 255, 255, 0.72);
+      --panel-strong: rgba(255, 255, 255, 0.9);
+      --ink: #1f2a44;
+      --muted: #7a86a5;
+      --line: rgba(140, 154, 190, 0.18);
+      --blue: #5f7cf7;
+      --green: #47d7bf;
+      --red: #f06f9d;
+      --gold: #ffc65c;
+      --teal: #33c7dc;
+      --violet: #9b78ff;
+      --slate: #4b5878;
+      --shadow: 0 22px 70px rgba(74, 91, 145, 0.14);
+      --soft-shadow: 0 12px 32px rgba(88, 104, 160, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.72);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background:
+        linear-gradient(125deg, rgba(255,255,255,0.96) 0%, rgba(247,250,255,0.92) 38%, rgba(241,247,255,0.9) 100%),
+        radial-gradient(80% 45% at 78% -8%, rgba(141, 193, 255, 0.34), transparent 64%),
+        radial-gradient(70% 42% at 28% 8%, rgba(180, 140, 255, 0.2), transparent 62%),
+        linear-gradient(90deg, rgba(85, 217, 206, 0.08), rgba(255, 159, 211, 0.1));
+      color: var(--ink);
+      font-family: "SF Pro Display", "SF Pro Text", Inter, Arial, "Helvetica Neue", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(115deg, transparent 10%, rgba(104, 171, 255, 0.11) 31%, transparent 48%),
+        linear-gradient(150deg, transparent 35%, rgba(255, 177, 226, 0.12) 50%, transparent 72%);
+      opacity: 0.9;
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.22) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.18), transparent 58%);
+      z-index: -1;
+    }
+
+    .shell {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      min-height: 210px;
+      padding: 30px 32px;
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.88), rgba(255,255,255,0.58)),
+        radial-gradient(70% 85% at 88% 12%, rgba(136, 207, 255, 0.34), transparent 65%),
+        linear-gradient(95deg, rgba(151, 120, 255, 0.16), rgba(79, 216, 204, 0.1));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(24px) saturate(1.22);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      right: 6%;
+      top: -34%;
+      width: 360px;
+      height: 360px;
+      border: 1px solid rgba(255,255,255,0.64);
+      border-radius: 50%;
+      background:
+        conic-gradient(from 140deg, rgba(98, 127, 255, 0.08), rgba(70, 220, 199, 0.22), rgba(255, 133, 212, 0.14), rgba(98, 127, 255, 0.08));
+      box-shadow: inset 0 0 34px rgba(255,255,255,0.72), 0 24px 70px rgba(112, 132, 214, 0.18);
+      filter: blur(0.2px);
+      opacity: 0.9;
+    }
+
+    header > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      max-width: 780px;
+      font-size: clamp(36px, 4.8vw, 68px);
+      line-height: 1.02;
+      font-weight: 760;
+      letter-spacing: 0;
+      color: #7467f2;
+      text-wrap: balance;
+    }
+
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      max-width: 640px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      height: 36px;
+      padding: 0 15px;
+      border: 1px solid rgba(255,255,255,0.66);
+      background: rgba(255,255,255,0.58);
+      border-radius: 999px;
+      color: var(--slate);
+      font-size: 13px;
+      font-weight: 650;
+      white-space: nowrap;
+      box-shadow: 0 10px 28px rgba(118, 133, 196, 0.12);
+      backdrop-filter: blur(18px);
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0 18px;
+    }
+
+    .kpi {
+      background: linear-gradient(145deg, rgba(255,255,255,0.88), rgba(255,255,255,0.58));
+      border: 1px solid var(--glass-border);
+      border-radius: 22px;
+      padding: 18px 18px 16px;
+      min-height: 128px;
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(20px) saturate(1.15);
+      position: relative;
+      overflow: hidden;
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+
+    .kpi:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 54px rgba(88, 104, 160, 0.16);
+    }
+
+    .kpi::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--green), #f28bd5);
+      opacity: 0.72;
+    }
+
+    .kpi span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .kpi strong {
+      display: block;
+      margin-top: 12px;
+      font-size: clamp(24px, 2.3vw, 34px);
+      line-height: 1;
+      color: #23304f;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi em {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-style: normal;
+      line-height: 1.35;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 18px 0 20px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.66);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.54);
+      box-shadow: 0 12px 36px rgba(88, 104, 160, 0.09);
+      backdrop-filter: blur(22px);
+    }
+
+    select, input {
+      height: 42px;
+      border: 1px solid rgba(126, 143, 190, 0.16);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.78);
+      color: var(--ink);
+      padding: 0 14px;
+      font-size: 14px;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.76);
+      transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: rgba(112, 131, 255, 0.56);
+      box-shadow: 0 0 0 4px rgba(112, 131, 255, 0.12);
+    }
+
+    input {
+      width: min(320px, 100%);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.48fr) minmax(360px, .62fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--glass-border);
+      border-radius: 26px;
+      padding: 22px;
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(22px) saturate(1.12);
+      overflow: hidden;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.25;
+      color: #26324f;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      max-width: 420px;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 12px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(126, 143, 190, 0.12);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      color: var(--slate);
+      font-size: 12px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex: 0 0 10px;
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.7);
+    }
+
+    .truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .bars {
+      display: grid;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 88px;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .bar-name {
+      font-size: 13px;
+      color: var(--slate);
+      margin-bottom: 6px;
+      font-weight: 650;
+    }
+
+    .bar-track {
+      height: 11px;
+      background: rgba(229, 235, 249, 0.82);
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 2px rgba(77, 91, 145, 0.08);
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .bar-value {
+      text-align: right;
+      font-size: 13px;
+      font-weight: 730;
+    }
+
+    .followers-section {
+      margin-top: 18px;
+    }
+
+    .analysis-section {
+      margin-top: 18px;
+    }
+
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .analysis-card {
+      border: 1px solid rgba(255,255,255,0.68);
+      border-radius: 24px;
+      padding: 18px;
+      background: linear-gradient(150deg, rgba(255,255,255,0.86), rgba(255,255,255,0.58));
+      min-height: 226px;
+      box-shadow: 0 16px 42px rgba(88, 104, 160, 0.1);
+      backdrop-filter: blur(18px);
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+
+    .analysis-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 58px rgba(88, 104, 160, 0.14);
+    }
+
+    .analysis-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .analysis-title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .analysis-title a,
+    .post-link {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 760;
+    }
+
+    .analysis-title a:hover,
+    .post-link:hover {
+      text-decoration: underline;
+    }
+
+    .analysis-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .mini-metric {
+      border: 1px solid rgba(126, 143, 190, 0.12);
+      border-radius: 16px;
+      padding: 11px;
+      background: rgba(255,255,255,0.72);
+      min-height: 68px;
+    }
+
+    .mini-metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 730;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+      letter-spacing: 0;
+    }
+
+    .mini-metric strong {
+      display: block;
+      font-size: 17px;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+      color: #253151;
+    }
+
+    .analysis-copy {
+      margin: 0;
+      color: var(--slate);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    details.daily-detail {
+      margin-top: 12px;
+      border-top: 1px solid rgba(126, 143, 190, 0.14);
+      padding-top: 10px;
+    }
+
+    details.daily-detail summary {
+      cursor: pointer;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 720;
+      list-style-position: inside;
+      transition: color 200ms ease;
+    }
+
+    details.daily-detail summary:hover {
+      color: var(--violet);
+    }
+
+    .mini-table-wrap {
+      overflow: auto;
+      margin-top: 10px;
+      border: 1px solid rgba(126, 143, 190, 0.14);
+      border-radius: 16px;
+      max-height: 260px;
+      background: rgba(255,255,255,0.6);
+    }
+
+    .mini-table {
+      min-width: 620px;
+      font-size: 12px;
+    }
+
+    .mini-table th,
+    .mini-table td {
+      padding: 8px 10px;
+    }
+
+    .table-section {
+      margin-top: 18px;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .table-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(126, 143, 190, 0.14);
+      background: rgba(255,255,255,0.34);
+    }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: 560px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1120px;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(126, 143, 190, 0.1);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: rgba(250,252,255,0.96);
+      color: var(--slate);
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    td.num, th.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(238, 244, 255, 0.86);
+      color: #5068d8;
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.72);
+    }
+
+    .scope {
+      margin-top: 18px;
+      padding: 16px 18px 14px;
+      border-radius: 22px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.78);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .scope h2 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .scope ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .scope li {
+      margin: 6px 0;
+      color: var(--slate);
+      line-height: 1.5;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      padding: 18px 6px 4px;
+    }
+
+    @media (max-width: 980px) {
+      .shell { padding: 18px; }
+      header, .grid { grid-template-columns: 1fr; }
+      header { min-height: auto; }
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .analysis-grid { grid-template-columns: 1fr; }
+      .legend { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      h1 { font-size: 26px; }
+      .kpis { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div>
+        <h1>Carlcare Bangladesh Facebook Predict & Win Data Dashboard</h1>
+        <p class="sub">Predict & Win campaign · Carlcare Service BD · 2026-11-20</p>
+        <div class="tags" aria-label="Dashboard scope tags">
+          <span class="badge">Views + engagement</span>
+          <span class="badge">Prediction trend</span>
+          <span class="badge">Account follows</span>
+          <a class="badge" href="Daily-Views_Master.csv" download>Download CSV</a>
+        </div>
+      </div>
+      <div class="badge">Generated: 2026-11-20 14:57 Asia/Shanghai</div>
+    </header>
+
+    <section class="scope" aria-label="Report scope">
+      <h2>How to read this 2026-11-20 report</h2>
+      <ul>
+        <li>10 SAFF activity posts: 9 prediction posts and 1 related ticket giveaway. The ticket post was published on 2026-11-08 and missed in the earlier collection. It is not a new prediction post. No new prediction posts were found after 2026-11-16.</li>
+        <li>Views are 159,515 in total: 156,128 on the 9 prediction posts and 3,387 on the related ticket post.</li>
+        <li>Against the 2026-11-16 report (142,635 on those same 9 posts), the combined difference is +16,880. That difference includes the 3,387 views of the related post, which is newly counted in this report. It is not all growth of the old posts. The previous 9 prediction posts increased by 13,493.</li>
+        <li>India vs Pakistan Prediction was already in the 2026-11-16 report. The same post moved from 1,952 to 13,424. The +11,472 is the change from that 2026-11-16 reading through the 2026-11-20 14:57 reading, not a single day.</li>
+        <li>Engagement on all 10 posts: 3,575 reactions, 4,070 comments, and 1,422 shares (9,067). The related ticket post is 54 reactions, 5 comments, and 1 share.</li>
+        <li>Page new follows are 786 for every complete US Pacific insight day from 2026-11-04 through 2026-11-19. This is a page-level series and is not attributed to these posts. 2026-11-09 stays 55 and 2026-11-10 stays 59. The incomplete Pacific day 2026-11-20 is excluded.</li>
+      </ul>
+    </section>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="toolbar">
+      <select id="categoryFilter" aria-label="Filter by category"></select>
+      <select id="postFilter" aria-label="Filter by post"></select>
+      <input id="searchInput" type="search" placeholder="Search post or date">
+      <span class="hint" id="rowCount"></span>
+    </div>
+
+    <div class="grid">
+      <section>
+        <div class="section-title">
+          <h2>Daily Views Trend</h2>
+          <span class="hint">Single-day Views are the points without a “covers” or “baseline” source. A “covers” point is the change between observation dates, not one day. India vs Pakistan’s 2026-11-20 point of 11,472 is that same post moving from 1,952 to 13,424. The related ticket post is omitted from this chart.</span>
+        </div>
+        <svg id="trendChart" viewBox="0 0 920 430" role="img" aria-label="Daily views trend chart"></svg>
+        <div class="legend" id="legend"></div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <h2>Total Views by Post</h2>
+          <span class="hint">Latest cumulative Views. The ticket giveaway is related activity and is separate from the 9 prediction posts.</span>
+        </div>
+        <div class="bars" id="bars"></div>
+      </section>
+    </div>
+
+    <section class="followers-section">
+      <div class="section-title">
+        <h2>Account Followers Growth by Date</h2>
+        <span class="hint">Page-level new follows for Carlcare Service BD, not attributed to a post and not changed by the filters. Complete US Pacific insight days 2026-11-04 through 2026-11-19 only. 11-09=55 and 11-10=59 stay corrected. Incomplete 2026-11-20 is excluded, so it is not shown as zero.</span>
+      </div>
+      <svg id="followersChart" viewBox="0 0 920 300" role="img" aria-label="Account followers growth by date"></svg>
+    </section>
+
+    <section class="analysis-section">
+      <div class="section-title">
+        <h2>Post Analysis</h2>
+        <span class="hint">Performance by post</span>
+      </div>
+      <div class="analysis-grid" id="postAnalysis"></div>
+    </section>
+
+    <section class="table-section">
+      <div class="table-head">
+        <div>
+          <h2>Master Table</h2>
+          <div class="hint">One row equals one post on one date.</div>
+        </div>
+        <div class="hint">Source: Meta Business Suite through 2026-11-10; Meta Graph API v24.0 lifetime Views on 2026-11-20</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Post</th>
+              <th>Post Link</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Observation Time</th>
+              <th class="num">Daily Views</th>
+              <th class="num">Cumulative Views</th>
+              <th class="num">Account New Follows</th>
+              <th>Page</th>
+              <th>Source File</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>Views through 2026-11-10 come from Meta Business Suite Object Insights charts and are kept unchanged, including the morning 2026-11-10 snapshots, which were already partial. Later Views come from Meta Graph API v24.0 lifetime post_media_view, observed at 2026-11-20 14:57 Asia/Shanghai. The API does not provide a historical daily Views series, so intermediate days between observation dates have blank daily Views; 2026-11-20 daily Views for previously tracked posts equal the cumulative change since 2026-11-16 (a multi-day span, not a single day). New posts first observed after their publish day are recorded as a baseline (cumulative only). Account Follows are page_daily_follows_unique by US Pacific insight day; a Pacific day ends at 16:00 Asia/Shanghai. Latest complete follows day in this report: 2026-11-19. 2026-11-20 is incomplete and excluded from the Account Follows total, and a blank cell is not a measured zero. The 2026-11-09 and 2026-11-10 follow counts remain the corrected complete API values (55 and 59). 2026-11-15 was updated from the prior partial 17 to complete 20; 2026-11-16 from partial 0 to complete 47. Account Follows are account-level and are not attributed to individual posts. Combined Views are 16,880 above the 2026-11-16 total of 142,635; 3,387 of that difference is the related ticket post counted for the first time, and the previous 9 prediction posts increased by 13,493. India vs Pakistan Prediction moved from 1,952 to 13,424 on the same post. Engagement on the 10 posts is 3,575 reactions, 4,070 comments, and 1,422 shares (9,067). SAFF Championship Ticket Giveaway (published 2026-11-08, missed earlier) is related free-ticket activity, not a new prediction post. No new prediction posts were found after 2026-11-16. 13th anniversary and Saturday Service Day posts are excluded.</footer>
+  </div>
+
+  <script>
+const CSV_DATA = "post_label,post_url,post_category,page,date,observation_time_cst,cumulative_views,daily_views,account_new_follows,source,source_file\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-04,2026-11-04 23:57,3436,3436,189,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-05,2026-11-05 21:27,21542,18106,115,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-06,2026-11-06 21:27,22679,1137,32,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-07,2026-11-07 21:27,23128,449,69,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-08,2026-11-08 21:27,23387,259,31,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-09,2026-11-09 21:27,23567,180,55,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-10,2026-11-10 09:27,23612,45,59,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-11,,,,19,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-12,,,,35,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-13,,,,57,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-14,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-15,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-16,2026-11-16 14:47,23857,245,47,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-11 through 2026-11-16,2026-11-16_API_post_media_view\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-17,,,,19,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-18,,,,9,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-19,,,,10,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nPakistan vs India Prediction,https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-20,2026-11-20 14:57,23928,71,,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20,2026-11-20_API_post_media_view\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-05,2026-11-05 23:41,21799,21799,115,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Bangladesh-vs-Bhutan-Prediction_Daily-Views.csv\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-06,2026-11-06 21:41,25538,3739,32,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Bangladesh-vs-Bhutan-Prediction_Daily-Views.csv\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-07,2026-11-07 18:41,26150,612,69,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Bangladesh-vs-Bhutan-Prediction_Daily-Views.csv\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-08,2026-11-08 18:41,26602,452,31,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Bangladesh-vs-Bhutan-Prediction_Daily-Views.csv\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-09,2026-11-09 12:41,26852,250,55,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Bangladesh-vs-Bhutan-Prediction_Daily-Views.csv\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-10,2026-11-10 00:41,26961,109,59,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Bangladesh-vs-Bhutan-Prediction_Daily-Views.csv\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-11,,,,19,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-12,,,,35,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-13,,,,57,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-14,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-15,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-16,2026-11-16 14:47,27303,342,47,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-11 through 2026-11-16,2026-11-16_API_post_media_view\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-17,,,,19,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-18,,,,9,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-19,,,,10,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nBangladesh vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-20,2026-11-20 14:57,27389,86,,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20,2026-11-20_API_post_media_view\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-07,2026-11-07 23:41,8393,8393,69,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Maldives-vs-Pakistan-Prediction_Daily-Views.csv\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-08,2026-11-08 22:11,12670,4277,31,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Maldives-vs-Pakistan-Prediction_Daily-Views.csv\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-09,2026-11-09 19:11,13598,928,55,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Maldives-vs-Pakistan-Prediction_Daily-Views.csv\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-10,2026-11-10 07:11,13914,316,59,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Maldives-vs-Pakistan-Prediction_Daily-Views.csv\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-11,,,,19,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-12,,,,35,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-13,,,,57,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-14,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-15,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-16,2026-11-16 14:47,14787,873,47,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-11 through 2026-11-16,2026-11-16_API_post_media_view\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-17,,,,19,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-18,,,,9,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-19,,,,10,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nMaldives vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-20,2026-11-20 14:57,14915,128,,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20,2026-11-20_API_post_media_view\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-07,2026-11-07 23:30,4736,4736,69,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Sri-Lanka-vs-Bhutan-Prediction_Daily-Views.csv\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-08,2026-11-08 21:30,10478,5742,31,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Sri-Lanka-vs-Bhutan-Prediction_Daily-Views.csv\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-09,2026-11-09 18:30,11824,1346,55,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Sri-Lanka-vs-Bhutan-Prediction_Daily-Views.csv\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-10,2026-11-10 06:30,12116,292,59,Meta Business Suite Object Insights Views chart,2026-11-10_BD_Sri-Lanka-vs-Bhutan-Prediction_Daily-Views.csv\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-11,,,,19,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-12,,,,35,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-13,,,,57,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-14,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-15,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-16,2026-11-16 14:47,12917,801,47,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-11 through 2026-11-16,2026-11-16_API_post_media_view\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-17,,,,19,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-18,,,,9,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-19,,,,10,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSri Lanka vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-20,2026-11-20 14:57,13006,89,,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20,2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-08,,,,31,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-09,,,,55,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-10,,,,59,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-11,,,,19,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-12,,,,35,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-13,,,,57,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-14,,,,20,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-15,,,,20,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-16,,,,47,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-17,,,,19,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-18,,,,9,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-19,,,,10,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nSAFF Championship Ticket Giveaway,https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172,SAFF related activity,Carlcare Service BD,2026-11-20,2026-11-20 14:57,3387,,,Meta Graph API v24.0 post_media_view (lifetime); baseline first observation,2026-11-20_API_post_media_view\r\nIndia vs Maldives Prediction,https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-09,2026-11-09 23:37,4300,4300,55,Meta Business Suite Object Insights Views chart,2026-11-10_BD_India-vs-Maldives-Prediction_Daily-Views.csv\r\nIndia vs Maldives Prediction,https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-10,2026-11-10 10:07,6196,1896,59,Meta Business Suite Object Insights Views chart,2026-11-10_BD_India-vs-Maldives-Prediction_Daily-Views.csv\r\nIndia vs Maldives Prediction,https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-11,,,,19,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nIndia vs Maldives Prediction,https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-12,,,,35,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nIndia vs Maldives Prediction,https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-13,,,,57,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nIndia vs Maldives Prediction,https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-14,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nIndia vs Maldives Prediction,https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-15,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nIndia vs Maldives Prediction,https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-16,2026-11-16 14:47,11578,5382,47,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-11 through 2026-11-16,2026-11-16_API_post_media_view\r\nIndia vs Maldives Prediction,https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-17,,,,19,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nIndia vs Maldives Prediction,https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-18,,,,9,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nIndia vs Maldives Prediction,https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-19,,,,10,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nIndia vs Maldives Prediction,https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-20,2026-11-20 14:57,11724,146,,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20,2026-11-20_API_post_media_view\r\nBangladesh vs Sri Lanka Prediction,https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-10,,,,59,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Sri Lanka Prediction,https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-11,,,,19,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Sri Lanka Prediction,https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-12,,,,35,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Sri Lanka Prediction,https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-13,,,,57,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Sri Lanka Prediction,https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-14,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Sri Lanka Prediction,https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-15,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Sri Lanka Prediction,https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-16,2026-11-16 14:47,17313,,47,Meta Graph API v24.0 post_media_view (lifetime); baseline first observation,2026-11-16_API_post_media_view\r\nBangladesh vs Sri Lanka Prediction,https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-17,,,,19,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nBangladesh vs Sri Lanka Prediction,https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-18,,,,9,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nBangladesh vs Sri Lanka Prediction,https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-19,,,,10,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nBangladesh vs Sri Lanka Prediction,https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-20,2026-11-20 14:57,17594,281,,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20,2026-11-20_API_post_media_view\r\nIndia vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-12,,,,35,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nIndia vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-13,,,,57,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nIndia vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-14,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nIndia vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-15,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nIndia vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-16,2026-11-16 14:47,12190,,47,Meta Graph API v24.0 post_media_view (lifetime); baseline first observation,2026-11-16_API_post_media_view\r\nIndia vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-17,,,,19,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nIndia vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-18,,,,9,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nIndia vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-19,,,,10,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nIndia vs Bhutan Prediction,https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-20,2026-11-20 14:57,12727,537,,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20,2026-11-20_API_post_media_view\r\nBangladesh vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-13,,,,57,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-14,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-15,,,,20,No daily Views observation (API has no historical daily series),2026-11-16_API_post_media_view\r\nBangladesh vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-16,2026-11-16 14:47,20738,,47,Meta Graph API v24.0 post_media_view (lifetime); baseline first observation,2026-11-16_API_post_media_view\r\nBangladesh vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-17,,,,19,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nBangladesh vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-18,,,,9,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nBangladesh vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-19,,,,10,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nBangladesh vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-20,2026-11-20 14:57,21421,683,,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20,2026-11-20_API_post_media_view\r\nIndia vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1476808697883375&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-16,2026-11-16 14:47,1952,1952,47,Meta Graph API v24.0 post_media_view (lifetime),2026-11-16_API_post_media_view\r\nIndia vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1476808697883375&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-17,,,,19,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nIndia vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1476808697883375&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-18,,,,9,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nIndia vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1476808697883375&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-19,,,,10,No daily Views observation (API has no historical daily series),2026-11-20_API_post_media_view\r\nIndia vs Pakistan Prediction,https://www.facebook.com/photo?fbid=1476808697883375&set=a.595957482635172,Prediction campaign,Carlcare Service BD,2026-11-20,2026-11-20 14:57,13424,11472,,Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20,2026-11-20_API_post_media_view\r\n";
+
+const colors = ['#2d6cdf', '#16856a', '#d35445', '#bd7b16', '#0f8b8d', '#7a5cff', '#344054'];
+
+function parseCSV(csv) {
+  const lines = csv.trim().replace(/^\uFEFF/, '').split(/\n/);
+  const headers = lines[0].split(',');
+  return lines.slice(1).map(line => {
+    const cells = line.split(',');
+    const row = {};
+    headers.forEach((h, i) => row[h] = cells[i] || '');
+    row.cumulative_views = row.cumulative_views === '' ? null : Number(row.cumulative_views);
+    row.daily_views = row.daily_views === '' ? null : Number(row.daily_views);
+    row.account_new_follows = row.account_new_follows === '' ? null : Number(row.account_new_follows);
+    return row;
+  });
+}
+
+const POST_ENGAGEMENT = {"Pakistan vs India Prediction": {"reactions": 419, "comments": 493, "shares": 155, "permalink": "https://www.facebook.com/1471820801715498/posts/1464786225752289"}, "Bangladesh vs Bhutan Prediction": {"reactions": 469, "comments": 562, "shares": 181, "permalink": "https://www.facebook.com/1471820801715498/posts/1465417662355812"}, "Maldives vs Pakistan Prediction": {"reactions": 329, "comments": 349, "shares": 132, "permalink": "https://www.facebook.com/1471820801715498/posts/1467502682147310"}, "Sri Lanka vs Bhutan Prediction": {"reactions": 338, "comments": 368, "shares": 120, "permalink": "https://www.facebook.com/1471820801715498/posts/1467729965457915"}, "SAFF Championship Ticket Giveaway": {"reactions": 54, "comments": 5, "shares": 1, "permalink": "https://www.facebook.com/1471820801715498/posts/1468779472019631"}, "India vs Maldives Prediction": {"reactions": 343, "comments": 364, "shares": 137, "permalink": "https://www.facebook.com/1471820801715498/posts/1469909471906631"}, "Bangladesh vs Sri Lanka Prediction": {"reactions": 422, "comments": 481, "shares": 178, "permalink": "https://www.facebook.com/1471820801715498/posts/1470593251838253"}, "India vs Bhutan Prediction": {"reactions": 354, "comments": 369, "shares": 159, "permalink": "https://www.facebook.com/1471820801715498/posts/1472734161624162"}, "Bangladesh vs Pakistan Prediction": {"reactions": 433, "comments": 584, "shares": 179, "permalink": "https://www.facebook.com/1471820801715498/posts/1473659821531596"}, "India vs Pakistan Prediction": {"reactions": 414, "comments": 495, "shares": 180, "permalink": "https://www.facebook.com/1471820801715498/posts/1476808974550014"}};
+const allRows = [{"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-04", "observation_time_cst": "2026-11-04 23:57", "cumulative_views": 3436, "daily_views": 3436, "account_new_follows": 189, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-05", "observation_time_cst": "2026-11-05 21:27", "cumulative_views": 21542, "daily_views": 18106, "account_new_follows": 115, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-06", "observation_time_cst": "2026-11-06 21:27", "cumulative_views": 22679, "daily_views": 1137, "account_new_follows": 32, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-07", "observation_time_cst": "2026-11-07 21:27", "cumulative_views": 23128, "daily_views": 449, "account_new_follows": 69, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-08", "observation_time_cst": "2026-11-08 21:27", "cumulative_views": 23387, "daily_views": 259, "account_new_follows": 31, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-09", "observation_time_cst": "2026-11-09 21:27", "cumulative_views": 23567, "daily_views": 180, "account_new_follows": 55, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-10", "observation_time_cst": "2026-11-10 09:27", "cumulative_views": 23612, "daily_views": 45, "account_new_follows": 59, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Pakistan-vs-India-Prediction_Daily-Views.csv"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-11", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-12", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 35, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-13", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 57, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-14", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-15", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-16", "observation_time_cst": "2026-11-16 14:47", "cumulative_views": 23857, "daily_views": 245, "account_new_follows": 47, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-11 through 2026-11-16", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-17", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-18", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 9, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-19", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 10, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Pakistan vs India Prediction", "post_url": "https://www.facebook.com/photo?fbid=1464784779085767&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-20", "observation_time_cst": "2026-11-20 14:57", "cumulative_views": 23928, "daily_views": 71, "account_new_follows": null, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-05", "observation_time_cst": "2026-11-05 23:41", "cumulative_views": 21799, "daily_views": 21799, "account_new_follows": 115, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Bangladesh-vs-Bhutan-Prediction_Daily-Views.csv"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-06", "observation_time_cst": "2026-11-06 21:41", "cumulative_views": 25538, "daily_views": 3739, "account_new_follows": 32, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Bangladesh-vs-Bhutan-Prediction_Daily-Views.csv"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-07", "observation_time_cst": "2026-11-07 18:41", "cumulative_views": 26150, "daily_views": 612, "account_new_follows": 69, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Bangladesh-vs-Bhutan-Prediction_Daily-Views.csv"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-08", "observation_time_cst": "2026-11-08 18:41", "cumulative_views": 26602, "daily_views": 452, "account_new_follows": 31, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Bangladesh-vs-Bhutan-Prediction_Daily-Views.csv"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-09", "observation_time_cst": "2026-11-09 12:41", "cumulative_views": 26852, "daily_views": 250, "account_new_follows": 55, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Bangladesh-vs-Bhutan-Prediction_Daily-Views.csv"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-10", "observation_time_cst": "2026-11-10 00:41", "cumulative_views": 26961, "daily_views": 109, "account_new_follows": 59, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Bangladesh-vs-Bhutan-Prediction_Daily-Views.csv"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-11", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-12", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 35, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-13", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 57, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-14", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-15", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-16", "observation_time_cst": "2026-11-16 14:47", "cumulative_views": 27303, "daily_views": 342, "account_new_follows": 47, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-11 through 2026-11-16", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-17", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-18", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 9, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-19", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 10, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Bangladesh vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1465417209022524&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-20", "observation_time_cst": "2026-11-20 14:57", "cumulative_views": 27389, "daily_views": 86, "account_new_follows": null, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-07", "observation_time_cst": "2026-11-07 23:41", "cumulative_views": 8393, "daily_views": 8393, "account_new_follows": 69, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Maldives-vs-Pakistan-Prediction_Daily-Views.csv"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-08", "observation_time_cst": "2026-11-08 22:11", "cumulative_views": 12670, "daily_views": 4277, "account_new_follows": 31, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Maldives-vs-Pakistan-Prediction_Daily-Views.csv"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-09", "observation_time_cst": "2026-11-09 19:11", "cumulative_views": 13598, "daily_views": 928, "account_new_follows": 55, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Maldives-vs-Pakistan-Prediction_Daily-Views.csv"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-10", "observation_time_cst": "2026-11-10 07:11", "cumulative_views": 13914, "daily_views": 316, "account_new_follows": 59, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Maldives-vs-Pakistan-Prediction_Daily-Views.csv"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-11", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-12", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 35, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-13", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 57, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-14", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-15", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-16", "observation_time_cst": "2026-11-16 14:47", "cumulative_views": 14787, "daily_views": 873, "account_new_follows": 47, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-11 through 2026-11-16", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-17", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-18", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 9, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-19", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 10, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Maldives vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467502522147326&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-20", "observation_time_cst": "2026-11-20 14:57", "cumulative_views": 14915, "daily_views": 128, "account_new_follows": null, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-07", "observation_time_cst": "2026-11-07 23:30", "cumulative_views": 4736, "daily_views": 4736, "account_new_follows": 69, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Sri-Lanka-vs-Bhutan-Prediction_Daily-Views.csv"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-08", "observation_time_cst": "2026-11-08 21:30", "cumulative_views": 10478, "daily_views": 5742, "account_new_follows": 31, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Sri-Lanka-vs-Bhutan-Prediction_Daily-Views.csv"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-09", "observation_time_cst": "2026-11-09 18:30", "cumulative_views": 11824, "daily_views": 1346, "account_new_follows": 55, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Sri-Lanka-vs-Bhutan-Prediction_Daily-Views.csv"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-10", "observation_time_cst": "2026-11-10 06:30", "cumulative_views": 12116, "daily_views": 292, "account_new_follows": 59, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_Sri-Lanka-vs-Bhutan-Prediction_Daily-Views.csv"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-11", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-12", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 35, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-13", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 57, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-14", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-15", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-16", "observation_time_cst": "2026-11-16 14:47", "cumulative_views": 12917, "daily_views": 801, "account_new_follows": 47, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-11 through 2026-11-16", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-17", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-18", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 9, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-19", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 10, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Sri Lanka vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1467729942124584&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-20", "observation_time_cst": "2026-11-20 14:57", "cumulative_views": 13006, "daily_views": 89, "account_new_follows": null, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-08", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 31, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-09", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 55, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-10", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 59, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-11", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-12", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 35, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-13", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 57, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-14", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-15", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-16", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 47, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-17", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-18", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 9, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-19", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 10, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "SAFF Championship Ticket Giveaway", "post_url": "https://www.facebook.com/photo?fbid=1468778568686388&set=a.595957482635172", "post_category": "SAFF related activity", "page": "Carlcare Service BD", "date": "2026-11-20", "observation_time_cst": "2026-11-20 14:57", "cumulative_views": 3387, "daily_views": null, "account_new_follows": null, "source": "Meta Graph API v24.0 post_media_view (lifetime); baseline first observation", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "India vs Maldives Prediction", "post_url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-09", "observation_time_cst": "2026-11-09 23:37", "cumulative_views": 4300, "daily_views": 4300, "account_new_follows": 55, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_India-vs-Maldives-Prediction_Daily-Views.csv"}, {"post_label": "India vs Maldives Prediction", "post_url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-10", "observation_time_cst": "2026-11-10 10:07", "cumulative_views": 6196, "daily_views": 1896, "account_new_follows": 59, "source": "Meta Business Suite Object Insights Views chart", "source_file": "2026-11-10_BD_India-vs-Maldives-Prediction_Daily-Views.csv"}, {"post_label": "India vs Maldives Prediction", "post_url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-11", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "India vs Maldives Prediction", "post_url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-12", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 35, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "India vs Maldives Prediction", "post_url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-13", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 57, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "India vs Maldives Prediction", "post_url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-14", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "India vs Maldives Prediction", "post_url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-15", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "India vs Maldives Prediction", "post_url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-16", "observation_time_cst": "2026-11-16 14:47", "cumulative_views": 11578, "daily_views": 5382, "account_new_follows": 47, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-11 through 2026-11-16", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "India vs Maldives Prediction", "post_url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-17", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "India vs Maldives Prediction", "post_url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-18", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 9, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "India vs Maldives Prediction", "post_url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-19", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 10, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "India vs Maldives Prediction", "post_url": "https://www.facebook.com/photo?fbid=1469908428573402&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-20", "observation_time_cst": "2026-11-20 14:57", "cumulative_views": 11724, "daily_views": 146, "account_new_follows": null, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Bangladesh vs Sri Lanka Prediction", "post_url": "https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-10", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 59, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Sri Lanka Prediction", "post_url": "https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-11", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Sri Lanka Prediction", "post_url": "https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-12", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 35, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Sri Lanka Prediction", "post_url": "https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-13", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 57, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Sri Lanka Prediction", "post_url": "https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-14", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Sri Lanka Prediction", "post_url": "https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-15", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Sri Lanka Prediction", "post_url": "https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-16", "observation_time_cst": "2026-11-16 14:47", "cumulative_views": 17313, "daily_views": null, "account_new_follows": 47, "source": "Meta Graph API v24.0 post_media_view (lifetime); baseline first observation", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Sri Lanka Prediction", "post_url": "https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-17", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Bangladesh vs Sri Lanka Prediction", "post_url": "https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-18", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 9, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Bangladesh vs Sri Lanka Prediction", "post_url": "https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-19", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 10, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Bangladesh vs Sri Lanka Prediction", "post_url": "https://www.facebook.com/photo?fbid=1470593231838255&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-20", "observation_time_cst": "2026-11-20 14:57", "cumulative_views": 17594, "daily_views": 281, "account_new_follows": null, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "India vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-12", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 35, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "India vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-13", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 57, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "India vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-14", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "India vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-15", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "India vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-16", "observation_time_cst": "2026-11-16 14:47", "cumulative_views": 12190, "daily_views": null, "account_new_follows": 47, "source": "Meta Graph API v24.0 post_media_view (lifetime); baseline first observation", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "India vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-17", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "India vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-18", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 9, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "India vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-19", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 10, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "India vs Bhutan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1472733701624208&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-20", "observation_time_cst": "2026-11-20 14:57", "cumulative_views": 12727, "daily_views": 537, "account_new_follows": null, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Bangladesh vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-13", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 57, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-14", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-15", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 20, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-16", "observation_time_cst": "2026-11-16 14:47", "cumulative_views": 20738, "daily_views": null, "account_new_follows": 47, "source": "Meta Graph API v24.0 post_media_view (lifetime); baseline first observation", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "Bangladesh vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-17", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Bangladesh vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-18", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 9, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Bangladesh vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-19", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 10, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "Bangladesh vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1473659801531598&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-20", "observation_time_cst": "2026-11-20 14:57", "cumulative_views": 21421, "daily_views": 683, "account_new_follows": null, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "India vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1476808697883375&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-16", "observation_time_cst": "2026-11-16 14:47", "cumulative_views": 1952, "daily_views": 1952, "account_new_follows": 47, "source": "Meta Graph API v24.0 post_media_view (lifetime)", "source_file": "2026-11-16_API_post_media_view"}, {"post_label": "India vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1476808697883375&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-17", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 19, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "India vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1476808697883375&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-18", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 9, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "India vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1476808697883375&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-19", "observation_time_cst": "", "cumulative_views": null, "daily_views": null, "account_new_follows": 10, "source": "No daily Views observation (API has no historical daily series)", "source_file": "2026-11-20_API_post_media_view"}, {"post_label": "India vs Pakistan Prediction", "post_url": "https://www.facebook.com/photo?fbid=1476808697883375&set=a.595957482635172", "post_category": "Prediction campaign", "page": "Carlcare Service BD", "date": "2026-11-20", "observation_time_cst": "2026-11-20 14:57", "cumulative_views": 13424, "daily_views": 11472, "account_new_follows": null, "source": "Meta Graph API v24.0 post_media_view (lifetime); daily_views covers 2026-11-17 through 2026-11-20", "source_file": "2026-11-20_API_post_media_view"}];
+const state = { category: 'All categories', post: 'All posts', search: '' };
+
+function fmt(n) {
+  if (n === null || n === undefined || n === '') return '—';
+  return Number(n).toLocaleString('en-US');
+}
+
+function shortDate(d) {
+  return d.slice(5);
+}
+
+function unique(items) {
+  return [...new Set(items)];
+}
+
+function latestByPost(rows) {
+  const map = new Map();
+  rows.forEach(row => {
+    if (row.cumulative_views === null || row.cumulative_views === '') return;
+    const current = map.get(row.post_label);
+    if (!current || row.date > current.date || (row.date === current.date && row.cumulative_views > current.cumulative_views)) {
+      map.set(row.post_label, row);
+    }
+  });
+  return [...map.values()].sort((a, b) => b.cumulative_views - a.cumulative_views);
+}
+
+function uniqueDateFollows() {
+  const map = new Map();
+  allRows.forEach(row => {
+    if (row.date > '2026-11-19') return;
+    const value = row.account_new_follows;
+    if (value === null || value === undefined || value === '') return;
+    if (!map.has(row.date)) map.set(row.date, value);
+  });
+  return [...map.entries()]
+    .map(([date, account_new_follows]) => ({ date, account_new_follows }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function sumUniqueDateFollows() {
+  return uniqueDateFollows().reduce((sum, row) => sum + row.account_new_follows, 0);
+}
+
+
+function trendRows(rows) {
+  return rows.filter(row => row.post_category === 'Prediction campaign');
+}
+
+function filteredRows() {
+  const query = state.search.trim().toLowerCase();
+  return allRows.filter(row => {
+    const catOk = state.category === 'All categories' || row.post_category === state.category;
+    const postOk = state.post === 'All posts' || row.post_label === state.post;
+    const searchOk = !query || `${row.post_label} ${row.post_category} ${row.date}`.toLowerCase().includes(query);
+    return catOk && postOk && searchOk;
+  });
+}
+
+function setupFilters() {
+  const categoryFilter = document.getElementById('categoryFilter');
+  const postFilter = document.getElementById('postFilter');
+  const categories = ['All categories', ...unique(allRows.map(r => r.post_category))];
+  categoryFilter.innerHTML = categories.map(c => `<option>${c}</option>`).join('');
+  categoryFilter.addEventListener('change', () => {
+    state.category = categoryFilter.value;
+    state.post = 'All posts';
+    renderPostFilter();
+    render();
+  });
+  postFilter.addEventListener('change', () => {
+    state.post = postFilter.value;
+    render();
+  });
+  document.getElementById('searchInput').addEventListener('input', event => {
+    state.search = event.target.value;
+    render();
+  });
+  renderPostFilter();
+}
+
+function renderPostFilter() {
+  const postFilter = document.getElementById('postFilter');
+  const source = state.category === 'All categories' ? allRows : allRows.filter(r => r.post_category === state.category);
+  const posts = ['All posts', ...unique(source.map(r => r.post_label))];
+  postFilter.innerHTML = posts.map(p => `<option>${p}</option>`).join('');
+  postFilter.value = state.post;
+}
+
+function renderKpis(rows) {
+  const posts = latestByPost(rows);
+  const total = posts.reduce((sum, r) => sum + r.cumulative_views, 0);
+  const totalFollows = sumUniqueDateFollows();
+  const topPost = posts[0];
+  const dailyPoints = rows.filter(isTrueDaily);
+  const peak = dailyPoints.reduce((best, r) => r.daily_views > best.daily_views ? r : best, dailyPoints[0] || { daily_views: 0, post_label: '-', date: '-' });
+  const categories = unique(rows.map(r => r.post_category)).length;
+  const unfiltered = state.category === 'All categories' && state.post === 'All posts' && !state.search.trim();
+  const predictionViews = posts.filter(r => r.post_category === 'Prediction campaign').reduce((sum, r) => sum + r.cumulative_views, 0);
+  const relatedViews = total - predictionViews;
+  const cards = [
+    ['Posts', fmt(posts.length), unfiltered ? '9 prediction + 1 related ticket post' : `${categories} ${categories === 1 ? 'category' : 'categories'}`],
+    ['Total Views', fmt(total), unfiltered ? `${fmt(predictionViews)} prediction + ${fmt(relatedViews)} related` : 'Latest cumulative views by post'],
+    ['Account Follows', fmt(totalFollows), 'Page total for complete Pacific days 2026-11-04 to 2026-11-19. Not post-attributed. 11/20 excluded'],
+    ['Top Post', topPost ? fmt(topPost.cumulative_views) : '0', topPost ? topPost.post_label : '-'],
+    ['Highest Daily Peak', fmt(peak.daily_views || 0), `${peak.post_label} · ${peak.date}`]
+  ];
+  document.getElementById('kpis').innerHTML = cards.map(card => `
+    <div class="kpi">
+      <span>${card[0]}</span>
+      <strong>${card[1]}</strong>
+      <em>${card[2]}</em>
+    </div>
+  `).join('');
+}
+
+function isBlank(v) {
+  return v === null || v === undefined || v === '';
+}
+
+function isTrueDaily(row) {
+  if (isBlank(row.daily_views)) return false;
+  const source = row.source || '';
+  if (source.includes('covers') || source.includes('baseline')) return false;
+  return true;
+}
+
+function drawTrend(rows) {
+  const svg = document.getElementById('trendChart');
+  svg.innerHTML = '';
+  if (!rows.length) return;
+  const width = 920, height = 430;
+  const pad = { left: 62, right: 24, top: 24, bottom: 54 };
+  const dates = unique(rows.map(r => r.date)).sort();
+  const posts = unique(rows.map(r => r.post_label));
+  const plotted = rows.filter(r => !isBlank(r.daily_views));
+  const maxY = Math.max(...plotted.map(r => r.daily_views), 10);
+  const x = date => pad.left + (dates.indexOf(date) / Math.max(dates.length - 1, 1)) * (width - pad.left - pad.right);
+  const y = val => height - pad.bottom - (val / maxY) * (height - pad.top - pad.bottom);
+  const el = (name, attrs = {}, text = '') => {
+    const node = document.createElementNS('http://www.w3.org/2000/svg', name);
+    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    if (text) node.textContent = text;
+    svg.appendChild(node);
+    return node;
+  };
+
+  for (let i = 0; i <= 4; i++) {
+    const value = Math.round(maxY * i / 4);
+    const yy = y(value);
+    el('line', { x1: pad.left, y1: yy, x2: width - pad.right, y2: yy, stroke: '#e5e9f0', 'stroke-width': 1 });
+    el('text', { x: pad.left - 12, y: yy + 4, 'text-anchor': 'end', fill: '#667085', 'font-size': 12 }, fmt(value));
+  }
+
+  const tickEvery = Math.max(1, Math.ceil(dates.length / 7));
+  dates.forEach((date, index) => {
+    if (index % tickEvery === 0 || index === dates.length - 1) {
+      const xx = x(date);
+      el('text', { x: xx, y: height - 22, 'text-anchor': 'middle', fill: '#667085', 'font-size': 12 }, shortDate(date));
+    }
+  });
+
+  posts.forEach((post, index) => {
+    const postRows = rows.filter(r => r.post_label === post && !isBlank(r.daily_views)).sort((a, b) => a.date.localeCompare(b.date));
+    if (!postRows.length) return;
+    const color = colors[index % colors.length];
+    const points = postRows.map(r => `${x(r.date)},${y(r.daily_views)}`).join(' ');
+    el('polyline', { points, fill: 'none', stroke: color, 'stroke-width': 2.4, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' });
+    postRows.forEach(r => {
+      const span = (r.source || '').includes('covers') || (r.source || '').includes('baseline');
+      const circle = el('circle', { cx: x(r.date), cy: y(r.daily_views), r: span ? 4.2 : 3.2, fill: color, 'stroke-dasharray': span ? '0' : undefined, stroke: span ? '#233047' : color, 'stroke-width': span ? 1.2 : 0 });
+      circle.innerHTML = `<title>${r.post_label} · ${r.date}: ${fmt(r.daily_views)}${span ? ' (multi-day span or baseline)' : ''}</title>`;
+    });
+  });
+}
+
+function renderLegend(rows) {
+  const posts = unique(rows.map(r => r.post_label));
+  document.getElementById('legend').innerHTML = posts.map((post, index) => `
+    <div class="legend-item">
+      <span class="dot" style="background:${colors[index % colors.length]}"></span>
+      <span class="truncate">${post}</span>
+    </div>
+  `).join('');
+}
+
+function renderBars(rows) {
+  const posts = latestByPost(rows);
+  const max = Math.max(...posts.map(r => r.cumulative_views), 1);
+  document.getElementById('bars').innerHTML = posts.map((row, index) => `
+    <div class="bar-row">
+      <div>
+        <div class="bar-name truncate">${row.post_category === 'Prediction campaign' ? row.post_label : `Related · ${row.post_label}`}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${(row.cumulative_views / max) * 100}%; background:${colors[index % colors.length]}"></div></div>
+      </div>
+      <div class="bar-value">${fmt(row.cumulative_views)}</div>
+    </div>
+  `).join('');
+}
+
+function drawFollowersChart() {
+  const svg = document.getElementById('followersChart');
+  svg.innerHTML = '';
+  const data = uniqueDateFollows();
+  if (!data.length) return;
+  const width = 920, height = 300;
+  const pad = { left: 58, right: 24, top: 24, bottom: 52 };
+  const maxY = Math.max(...data.map(r => r.account_new_follows), 10);
+  const slot = (width - pad.left - pad.right) / data.length;
+  const barW = Math.max(8, Math.min(24, slot * 0.62));
+  const y = val => height - pad.bottom - (val / maxY) * (height - pad.top - pad.bottom);
+  const el = (name, attrs = {}, text = '') => {
+    const node = document.createElementNS('http://www.w3.org/2000/svg', name);
+    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    if (text) node.textContent = text;
+    svg.appendChild(node);
+    return node;
+  };
+
+  for (let i = 0; i <= 4; i++) {
+    const value = Math.round(maxY * i / 4);
+    const yy = y(value);
+    el('line', { x1: pad.left, y1: yy, x2: width - pad.right, y2: yy, stroke: '#e5e9f0', 'stroke-width': 1 });
+    el('text', { x: pad.left - 12, y: yy + 4, 'text-anchor': 'end', fill: '#667085', 'font-size': 12 }, fmt(value));
+  }
+
+  const tickEvery = Math.max(1, Math.ceil(data.length / 8));
+  data.forEach((row, index) => {
+    const x = pad.left + index * slot + (slot - barW) / 2;
+    const barY = y(row.account_new_follows);
+    const rect = el('rect', {
+      x,
+      y: barY,
+      width: barW,
+      height: height - pad.bottom - barY,
+      rx: 3,
+      fill: row.account_new_follows >= 100 ? '#d35445' : '#16856a'
+    });
+    rect.innerHTML = `<title>${row.date}: ${fmt(row.account_new_follows)} new follows</title>`;
+    if (index % tickEvery === 0 || index === data.length - 1) {
+      el('text', { x: x + barW / 2, y: height - 22, 'text-anchor': 'middle', fill: '#667085', 'font-size': 12 }, shortDate(row.date));
+    }
+  });
+}
+
+function summarizePost(postRows) {
+  const rows = [...postRows].sort((a, b) => a.date.localeCompare(b.date));
+  const observed = rows.filter(r => !isBlank(r.cumulative_views));
+  const latest = observed.reduce((best, r) => r.cumulative_views >= best.cumulative_views ? r : best, observed[0] || rows[0]);
+  const dailyPoints = rows.filter(isTrueDaily);
+  const peak = dailyPoints.length
+    ? dailyPoints.reduce((best, r) => r.daily_views > best.daily_views ? r : best, dailyPoints[0])
+    : { date: '—', daily_views: null };
+  const firstThree = dailyPoints.slice(0, 3).reduce((sum, r) => sum + r.daily_views, 0);
+  const firstThreeShare = latest && latest.cumulative_views ? Math.round((firstThree / latest.cumulative_views) * 1000) / 10 : 0;
+  const afterPeakRows = dailyPoints.filter(r => r.date > peak.date);
+  const afterPeakAverage = afterPeakRows.length
+    ? Math.round(afterPeakRows.reduce((sum, r) => sum + r.daily_views, 0) / afterPeakRows.length)
+    : 0;
+  const category = rows[0].post_category;
+  const spanRows = observed.filter(r => (r.source || '').includes('covers'));
+  const baselineRow = observed.find(r => (r.source || '').includes('baseline'));
+  let insight;
+
+  if (category === 'SAFF related activity') {
+    insight = `Related SAFF activity, not a prediction post. It was published on 2026-11-08 and missed in the earlier collection, so this report counts it for the first time. It is not a new prediction post, and no new prediction posts were found after 2026-11-16. The ${fmt(latest ? latest.cumulative_views : 0)} Views are the lifetime baseline at the first API observation. They are not a single-day total and they are not growth of the 9 posts in the 2026-11-16 report.`;
+  } else if (baselineRow) {
+    insight = `Baseline first observation on ${baselineRow.date}: ${fmt(baselineRow.cumulative_views)} cumulative Views were already on the post when it was first pulled from the API. This is not a single-day total, so it is excluded from the daily peak and the daily trend is left blank until the next observation.`;
+  } else if (category === 'Prediction campaign') {
+    if (dailyPoints.length <= 3) {
+      insight = `Early observation window: ${dailyPoints.length} tracked day${dailyPoints.length === 1 ? '' : 's'} with a true daily Views value. The highest recorded daily Views were ${fmt(peak.daily_views)} on ${peak.date}; a longer window is needed to assess sustained performance.`;
+    } else if (firstThreeShare >= 85) {
+      insight = `Fast-burst prediction post: ${firstThreeShare}% of views arrived in the first three tracked days, then demand moved into a long-tail pattern.`;
+    } else if (afterPeakAverage > 1000) {
+      insight = `Strong sustained prediction post: the peak came on ${peak.date}, and the post still averaged ${fmt(afterPeakAverage)} daily views after the peak.`;
+    } else {
+      insight = `Prediction post with a clear early spike on ${peak.date}, followed by a softer daily tail.`;
+    }
+  } else if (category === 'Winner announcement') {
+    insight = `Winner announcement is kept out of the trend comparison because it has only same-day data so far; it remains included in total views.`;
+  } else {
+    insight = `Campaign announcement is kept out of the prediction trend comparison; it is useful as a baseline awareness post in total views.`;
+  }
+  spanRows.forEach(spanRow => {
+    const match = (spanRow.source || '').match(/covers (\d{4}-\d{2}-\d{2}) through (\d{4}-\d{2}-\d{2})/);
+    if (match) {
+      insight += ` The ${spanRow.date} figure of ${fmt(spanRow.daily_views)} is the cumulative change from ${match[1]} through ${match[2]}, not a single day.`;
+    } else {
+      insight += ` The ${spanRow.date} figure of ${fmt(spanRow.daily_views)} is a multi-day cumulative change, not a single day.`;
+    }
+  });
+  if (rows[0].post_label === 'India vs Pakistan Prediction') {
+    insight += ` This final was already in the 2026-11-16 report at 1,952 Views and is now ${fmt(latest ? latest.cumulative_views : 0)} on the same post.`;
+  }
+
+  const eng = POST_ENGAGEMENT[rows[0].post_label] || {reactions:0,comments:0,shares:0};
+  return {
+    label: rows[0].post_label,
+    url: rows[0].post_url,
+    category,
+    total: latest ? latest.cumulative_views : 0,
+    peakDay: peak.date,
+    peakViews: peak.daily_views,
+    reactions: eng.reactions || 0,
+    comments: eng.comments || 0,
+    shares: eng.shares || 0,
+    firstThreeShare,
+    days: observed.length,
+    rows,
+    insight
+  };
+}
+
+function renderPostAnalysis(rows) {
+  const groups = new Map();
+  rows.forEach(row => {
+    if (!groups.has(row.post_label)) groups.set(row.post_label, []);
+    groups.get(row.post_label).push(row);
+  });
+  const summaries = [...groups.values()]
+    .map(summarizePost)
+    .sort((a, b) => b.total - a.total);
+
+  document.getElementById('postAnalysis').innerHTML = summaries.map(item => `
+    <article class="analysis-card">
+      <div class="analysis-top">
+        <h3 class="analysis-title"><a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.label}</a></h3>
+        <span class="pill">${item.category}</span>
+      </div>
+      <div class="analysis-metrics">
+        <div class="mini-metric">
+          <span>Total views</span>
+          <strong>${fmt(item.total)}</strong>
+        </div>
+        <div class="mini-metric">
+          <span>Reactions</span>
+          <strong>${fmt(item.reactions)}</strong>
+        </div>
+        <div class="mini-metric">
+          <span>Comments</span>
+          <strong>${fmt(item.comments)}</strong>
+        </div>
+        <div class="mini-metric">
+          <span>Shares</span>
+          <strong>${fmt(item.shares)}</strong>
+        </div>
+        <div class="mini-metric">
+          <span>Peak day</span>
+          <strong>${item.peakDay}</strong>
+        </div>
+        <div class="mini-metric">
+          <span>Peak views</span>
+          <strong>${fmt(item.peakViews)}</strong>
+        </div>
+      </div>
+      <p class="analysis-copy">${item.insight}</p>
+      <p class="analysis-copy">${item.peakViews === null ? `Tracked readings: ${item.days}. No single-day Views series, so there is no daily peak and no first-three-day share.` : `Tracked readings: ${item.days}. First-three-day contribution uses single-day readings only: ${item.firstThreeShare}% of latest cumulative views.`}</p>
+      <details class="daily-detail">
+        <summary>Daily detail</summary>
+        <div class="mini-table-wrap">
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Observation</th>
+                <th class="num">Daily Views</th>
+                <th class="num">Cumulative</th>
+                <th class="num">Account New Follows</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${item.rows.map(row => `
+                <tr>
+                  <td>${row.date}</td>
+                  <td>${row.observation_time_cst}</td>
+                  <td class="num">${fmt(row.daily_views)}</td>
+                  <td class="num">${fmt(row.cumulative_views)}</td>
+                  <td class="num">${fmt(row.account_new_follows)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </article>
+  `).join('');
+}
+
+function renderTable(rows) {
+  document.getElementById('rowCount').textContent = `${fmt(rows.length)} rows shown`;
+  document.getElementById('tableBody').innerHTML = rows.map(row => `
+    <tr>
+      <td>${row.post_label}</td>
+      <td><a class="post-link" href="${row.post_url}" target="_blank" rel="noopener noreferrer">View post</a></td>
+      <td><span class="pill">${row.post_category}</span></td>
+      <td>${row.date}</td>
+      <td>${row.observation_time_cst || '—'}</td>
+      <td class="num">${fmt(row.daily_views)}</td>
+      <td class="num">${fmt(row.cumulative_views)}</td>
+      <td class="num">${fmt(row.account_new_follows)}</td>
+      <td>${row.page}</td>
+      <td>${row.source_file}</td>
+    </tr>
+  `).join('');
+}
+
+function render() {
+  const rows = filteredRows();
+  const trendOnlyRows = trendRows(rows);
+  renderKpis(rows);
+  drawTrend(trendOnlyRows);
+  renderLegend(trendOnlyRows);
+  renderBars(rows);
+  drawFollowersChart();
+  renderPostAnalysis(rows);
+  renderTable(rows);
+}
+
+setupFilters();
+render();
+  </script>
+</body>
+</html>
